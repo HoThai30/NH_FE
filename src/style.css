@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Container & Layout */
+  .container {
+    @apply max-w-7xl mx-auto px-4;
+  }
+
+  /* Login Styles */
+  .login-container {
+    @apply min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 py-12 px-4;
+  }
+
+  .login-card {
+    @apply w-full max-w-md bg-white rounded-lg shadow-md p-8 border-t-4 border-blue-600;
+  }
+
+  .login-card h1 {
+    @apply text-3xl font-bold text-center text-gray-900 mb-2;
+  }
+
+  .subtitle {
+    @apply text-center text-gray-600 text-sm mb-6;
+  }
+
+  /* Form Components */
+  .form-card {
+    @apply bg-white rounded-lg shadow-md p-8 mb-6 border border-gray-200;
+  }
+
+  .form-group {
+    @apply mb-6;
+  }
+
+  .form-group label {
+    @apply block text-sm font-semibold text-gray-700 mb-2;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition;
+  }
+
+  .form-group input:disabled,
+  .form-group textarea:disabled,
+  .form-group select:disabled {
+    @apply bg-gray-100 cursor-not-allowed opacity-50;
+  }
+
+  .form-group textarea {
+    @apply resize-y min-h-32;
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    @apply w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition;
+  }
+
+  .btn-success {
+    @apply px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition;
+  }
+
+  /* Messages */
+  .error-message {
+    @apply p-4 mb-6 bg-red-50 text-red-800 border border-red-200 rounded-lg;
+  }
+
+  .success-message {
+    @apply p-4 mb-6 bg-green-50 text-green-800 border border-green-200 rounded-lg;
+  }
+
+  .warning-text {
+    @apply p-4 mb-6 bg-yellow-50 text-yellow-800 border border-yellow-200 rounded-lg text-center font-medium;
+  }
+
+  /* Appointment Card & Info */
+  .appointment-card {
+    @apply bg-white rounded-lg shadow-md p-8 border border-gray-200;
+  }
+
+  .card-header {
+    @apply flex justify-between items-center mb-6 pb-4 border-b border-gray-200;
+  }
+
+  .card-header h2 {
+    @apply text-2xl font-bold text-gray-900;
+  }
+
+  .status {
+    @apply px-4 py-2 rounded-full font-semibold text-white text-sm;
+  }
+
+  .status.pending {
+    @apply bg-yellow-500;
+  }
+
+  .status.checked_in,
+  .status.confirmed {
+    @apply bg-green-500;
+  }
+
+  .status.cancelled {
+    @apply bg-red-500;
+  }
+
+  .status.completed {
+    @apply bg-blue-500;
+  }
+
+  /* Info Display */
+  .appointment-info,
+  .patient-info {
+    @apply space-y-4;
+  }
+
+  .info-row {
+    @apply flex items-start py-3 border-b border-gray-100 last:border-b-0;
+  }
+
+  .info-row span:first-child {
+    @apply font-semibold text-gray-700 min-w-max pr-4;
+  }
+
+  .label {
+    @apply font-bold text-gray-700 text-sm uppercase tracking-tight;
+  }
+
+  /* Table Styles */
+  .table-card {
+    @apply bg-white rounded-lg shadow-md overflow-hidden;
+  }
+
+  .table-card table {
+    @apply w-full text-sm text-gray-900;
+  }
+
+  .table-card thead {
+    @apply bg-gray-50 border-b border-gray-200;
+  }
+
+  .table-card th {
+    @apply px-6 py-3 text-left font-semibold text-gray-700;
+  }
+
+  .table-card td {
+    @apply px-6 py-4 border-b border-gray-100;
+  }
+
+  .table-card tbody tr:hover {
+    @apply bg-blue-50;
+  }
+
+  /* Dashboard */
+  .dashboard-container {
+    @apply max-w-7xl mx-auto px-4 py-8;
+  }
+
+  /* Image Upload */
+  .image-upload-label {
+    @apply block w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg cursor-pointer hover:bg-blue-700 transition text-center;
+  }
+  /* ẩn thanh scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+}

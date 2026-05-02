@@ -1,0 +1,432 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import api, { postAPI } from '../services/api';
+
+const PostDetailPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  
+  const [post, setPost] = useState(null);
+  const [recentPosts, setRecentPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [booking, setBooking] = useState({
+    patientName: '',
+    patientPhone: '',
+    appointmentTime: '',
+    reason: '',
+  });
+  const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+
+  const validateBooking = () => {
+    const nextErrors = {};
+    if (!booking.patientName.trim()) nextErrors.patientName = 'Vui lòng nhập họ tên';
+    if (!booking.patientPhone.trim()) nextErrors.patientPhone = 'Vui lòng nhập số điện thoại';
+    if (!booking.appointmentTime) nextErrors.appointmentTime = 'Vui lòng chọn thời gian';
+
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const handleBookingChange = (e) => {
+    const { name, value } = e.target;
+    setBooking((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const handleBookingSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateBooking()) return;
+
+    setSubmitting(true);
+    try {
+      await api.post('/appointments/anonymous', {
+        patientName: booking.patientName,
+        patientPhone: booking.patientPhone,
+        appointmentTime: booking.appointmentTime,
+        consultationNeeds: booking.reason,
+      });
+
+      alert('Đặt lịch thành công');
+      setModalOpen(false);
+      setBooking((prev) => ({
+        ...prev,
+        appointmentTime: '',
+        reason: '',
+      }));
+    } catch (err) {
+      alert('Đặt lịch thất bại');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [id]);
+
+  const fetchData = async () => {
+    setLoading(true);
+    setError('');
+    
+    try {
+      if (id) {
+        // Xem chi tiết bài viết cụ thể
+        const response = await postAPI.getById(id);
+        setPost(response.data);
+        
+        // Lấy thêm các bài viết gần đây (loại trừ bài hiện tại)
+        const recentRes = await postAPI.getAllPublished();
+        const currentId = parseInt(id, 10);
+        const uniqueRecent = (recentRes.data || []).reduce((acc, post) => {
+          if (post.id !== currentId && !acc.some((item) => item.id === post.id)) {
+            acc.push(post);
+          }
+          return acc;
+        }, []);
+
+        setRecentPosts(uniqueRecent.slice(0, 4));
+      } else {
+        // Xem bài viết nổi bật mới nhất (từ navigation)
+        const activeRes = await postAPI.getAllActive();
+        const publishedRes = await postAPI.getAllPublished();
+        
+        const allPostsMap = new Map();
+        [...(activeRes.data || []), ...(publishedRes.data || [])].forEach((post) => {
+          if (!allPostsMap.has(post.id)) {
+            allPostsMap.set(post.id, post);
+          }
+        });
+        const allPosts = Array.from(allPostsMap.values());
+        // Lấy bài mới nhất
+        const latestPost = allPosts.sort((a, b) => 
+          new Date(b.createdAt) - new Date(a.createdAt)
+        )[0];
+        
+        if (latestPost) {
+          setPost(latestPost);
+          // Lấy các bài khác (loại trừ bài đang hiển thị)
+          setRecentPosts(
+            allPosts
+              .filter(p => p.id !== latestPost.id)
+              .slice(0, 4)
+          );
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching post:', err);
+      setError('Không thể tải bài viết. Vui lòng thử lại sau.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    return new Date(dateString).toLocaleDateString('vi-VN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
+  const formatPrice = (value) => {
+    if (!value) return '';
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(value);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-yellow-50">
+        <div className="max-w-[1100px] mx-auto px-4 py-12">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
+            <div className="h-96 bg-gray-200 rounded mb-8"></div>
+            <div className="space-y-3">
+              <div className="h-4 bg-gray-200 rounded"></div>
+              <div className="h-4 bg-gray-200 rounded"></div>
+              <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-yellow-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 text-lg mb-4">{error}</p>
+          <Link to="/" className="text-teal-600 hover:underline">
+            ← Quay về trang chủ
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (!post) {
+    return (
+      <div className="min-h-screen bg-yellow-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600 text-lg mb-4">Không có bài viết nào</p>
+          <Link to="/" className="text-teal-600 hover:underline">
+            ← Quay về trang chủ
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-yellow-50">
+      {/* Hero Banner */}
+      <div 
+        className="py-16 text-white"
+        style={{ backgroundColor: '#2b0202' }}
+      >
+        <div className="max-w-[1100px] mx-auto px-4">
+          <div className="flex items-center gap-2 text-sm mb-4">
+            <Link to="/" className="text-yellow-400 hover:underline">Trang chủ</Link>
+            <span className="text-white/50">/</span>
+            <span className="text-white/70">Tin tức</span>
+            <span className="text-white/50">/</span>
+            <span className="text-white">{post.title?.slice(0, 30)}...</span>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-black font-serif leading-tight">
+            {post.title}
+          </h1>
+          <div className="flex items-center gap-4 mt-4 text-sm text-white/70">
+            <span>📅 {formatDate(post.createdAt)}</span>
+            {post.category && <span>📁 {post.category}</span>}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-[1100px] mx-auto px-4 py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Article Content */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              {/* Featured Image */}
+              <div className="relative">
+                {post.imageUrl ? (
+                  <img 
+                    src={`/uploads/${post.imageUrl}`} 
+                    alt={post.title}
+                    className="w-full h-[400px] object-cover"
+                    onError={(e) => {
+                      e.target.src = 'https://via.placeholder.com/800x400?text=No+Image';
+                    }}
+                  />
+                ) : (
+                  <div 
+                    className="w-full h-[400px] flex items-center justify-center"
+                    style={{ backgroundColor: '#f5ede6' }}
+                  >
+                    <span className="text-6xl">🦷</span>
+                  </div>
+                )}
+                {post.category && (
+                  <div className="absolute top-4 left-4 px-4 py-2 rounded-full text-sm font-semibold text-white"
+                    style={{ backgroundColor: '#D4A843' }}
+                  >
+                    {post.category}
+                  </div>
+                )}
+              </div>
+
+              {/* Content */}
+              <div className="p-8">
+                <h2 className="text-xl font-bold text-gray-800 mb-4">
+                  {post.title}
+                </h2>
+                
+                <div className="text-gray-600 leading-relaxed space-y-4">
+                  {post.description && (
+                    <p className="text-lg font-medium text-gray-700 border-l-4 border-teal-600 pl-4">
+                      {post.description}
+                    </p>
+                  )}
+                  
+                  {post.content ? (
+                    <div 
+                      className="prose max-w-none"
+                      dangerouslySetInnerHTML={{ __html: post.content }}
+                    />
+                  ) : (
+                    <p className="text-gray-500 italic">
+                      Nội dung đang được cập nhật...
+                    </p>
+                  )}
+                </div>
+
+                {/* Price if available */}
+                {post.price && (
+                  <div className="mt-8 p-6 rounded-xl" style={{ backgroundColor: '#f5ede6' }}>
+                    <p className="text-sm font-semibold text-gray-600 mb-2">Giá dịch vụ:</p>
+                    <p className="text-3xl font-black" style={{ color: '#2b0202' }}>
+                      {formatPrice(post.price)}
+                    </p>
+                  </div>
+                )}
+
+                {/* Back Button */}
+                <div className="mt-8 pt-6 border-t">
+                  <button 
+                    onClick={() => navigate(-1)}
+                    className="flex items-center gap-2 text-teal-600 hover:text-teal-800 transition"
+                  >
+                    ← Quay lại
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            {/* Recent Posts */}
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+              <h3 className="text-lg font-bold text-gray-800 mb-4 pb-3 border-b">
+                Tin tức khác
+              </h3>
+              
+              <div className="space-y-4">
+                {recentPosts.length > 0 ? (
+                  recentPosts.map((p) => (
+                    <Link 
+                      key={p.id}
+                      to={`/posts/${p.id}`}
+                      className="flex gap-3 group"
+                    >
+                      <div className="w-20 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                        {p.imageUrl ? (
+                          <img 
+                            src={`/uploads/${p.imageUrl}`} 
+                            alt={p.title}
+                            className="w-full h-full object-cover group-hover:scale-110 transition"
+                            onError={(e) => {
+                              e.target.src = 'https://via.placeholder.com/80x64?text=No+Image';
+                            }}
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                            <span className="text-xl">📰</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-gray-800 line-clamp-2 group-hover:text-teal-600 transition">
+                          {p.title}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {formatDate(p.createdAt)}
+                        </p>
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <p className="text-gray-500 text-sm">Không có tin tức khác</p>
+                )}
+              </div>
+
+              {/* View All Link */}
+              <Link 
+                to="/"
+                className="block mt-6 text-center text-sm font-semibold text-teal-600 hover:text-teal-800 transition"
+              >
+                Xem tất cả tin tức →
+              </Link>
+            </div>
+
+            {/* Contact Box */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 mt-6">
+              <h3 className="text-lg font-bold text-gray-800 mb-4">
+                Đặt lịch khám
+              </h3>
+              <p className="text-gray-600 text-sm mb-4">
+                Liên hệ ngay để được tư vấn miễn phí về các dịch vụ nha khoa.
+              </p>
+              <button
+                onClick={() => setModalOpen(true)}
+                className="mt-6 text-white px-6 py-3 rounded-xl hover:bg-teal-800 transition"
+                style={{ backgroundColor: '#D4A843' }}
+              >
+                Đặt lịch khám
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {modalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center p-4 z-50">
+          <div className="bg-white rounded-xl w-full max-w-xl p-6">
+            <h2 className="text-lg font-semibold mb-4">Đặt lịch khám</h2>
+
+            <form onSubmit={handleBookingSubmit} className="space-y-4">
+              <input
+                name="patientPhone"
+                value={booking.patientPhone}
+                onChange={handleBookingChange}
+                placeholder="Số điện thoại"
+                className="w-full border p-3 rounded"
+              />
+              <input
+                name="patientName"
+                value={booking.patientName}
+                onChange={handleBookingChange}
+                placeholder="Họ tên"
+                className="w-full border p-3 rounded"
+              />
+              <input
+                type="datetime-local"
+                name="appointmentTime"
+                value={booking.appointmentTime}
+                onChange={handleBookingChange}
+                className="w-full border p-3 rounded"
+              />
+              <textarea
+                name="reason"
+                value={booking.reason}
+                onChange={handleBookingChange}
+                placeholder="Lý do"
+                className="w-full border p-3 rounded"
+              />
+
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(false)}
+                  className="px-4 py-2 border rounded"
+                >
+                  Hủy
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="px-4 py-2 bg-green-700 text-white rounded"
+                >
+                  {submitting ? 'Đang gửi...' : 'Gửi'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default PostDetailPage;
