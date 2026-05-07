@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 
 const PostListPage = () => {
   const [posts, setPosts] = useState([]);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -56,6 +58,16 @@ const PostListPage = () => {
       alert('Có lỗi xảy ra khi cập nhật trạng thái nổi bật');
     }
   };
+  const togglePromotion = async (post) => {
+    try {
+      const updatedPost = { ...post, promotion: !post.promotion };
+      await api.put(`/posts/${post.id}`, updatedPost);
+      setPosts(posts.map(p => p.id === post.id ? updatedPost : p));
+    } catch (error) {
+      console.error('Error updating post:', error);
+      alert('Có lỗi xảy ra khi cập nhật trạng thái khuyến mãi');
+    }
+  };
 
   if (loading) {
     return (
@@ -70,6 +82,9 @@ const PostListPage = () => {
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-2xl font-semibold text-gray-900">Quản lý bài viết</h1>
+
+          <button onClick={() => navigate(-1)} className="btn-secondary mb-6">← Quay Lại</button>
+
           <p className="mt-2 text-sm text-gray-700">
             Quản lý các bài viết quảng cáo và thông báo của bệnh viện
           </p>
@@ -144,7 +159,7 @@ const PostListPage = () => {
                         </button>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {new Date(post.createdAt).toLocaleString('vi-VN')}
+                        {new Date(post.createdAt || post.updatedAt).toLocaleString('vi-VN')}
                       </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                         <Link

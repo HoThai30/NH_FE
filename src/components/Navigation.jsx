@@ -46,7 +46,7 @@ export default function Navigation() {
 
   // Menu style (chỉ glow chữ, không nền)
   const navItem =
-    "py-3 px-2 transition duration-300 rounded " +
+    "py-3 px-2 transition duration-300 rounded text-white " +
     "hover:text-yellow-200 " +
     "hover:[text-shadow:0_0_5px_#fff,0_0_10px_#ffd700,0_0_20px_#ffd700] " +
     "hover:-translate-y-0.5";
@@ -69,11 +69,16 @@ export default function Navigation() {
     
   if (isAdminPage) {
     return (
-      <nav className="bg-teal-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3">
-          <Link to="/" className="text-white font-bold text-lg">
-            Demo
-          </Link>
+      <nav className="bg-primaryDark sticky top-0 z-50">
+       <div className="flex items-center gap-3">
+          <div className="w-20 h-20 rounded-full overflow-hidden bg-white flex items-center justify-center">
+            <img
+              src="public/uploads/logo.jpg"
+              alt="logo"
+              className="w-full h-full object-contain"
+            />
+          </div>
+        
 
           {isAuthenticated && (
             <div className="flex items-center gap-4">
@@ -145,11 +150,9 @@ export default function Navigation() {
             )}
           </div>
 
-          <div className={navItem}>KIẾN THỨC</div>
           <a href="/#pricing" className={navItem}>BẢNG GIÁ</a>
-          <div className={navItem}>KHUYẾN MẠI</div>
+          <Link to="/khuyen-mai" className={navItem}>KHUYẾN MẠI</Link>
           <Link to="/tin-tuc" className={navItem}>TIN TỨC</Link>
-          <div className={navItem}>LIÊN HỆ</div>
           <div className={navItem}>HỎI ĐÁP</div>
 
         </div>
@@ -161,26 +164,12 @@ export default function Navigation() {
               <Link to="/dashboard" className={navItem}>
                 Dashboard
               </Link>
-
-              {(user?.role === 'ADMIN' || user?.role === 'RECEPTIONIST') && (
-                <Link to="/services" className={navItem}>
-                  Dịch vụ
-                </Link>
-              )}
-
-              {user?.role === 'ADMIN' && (
-                <Link to="/posts" className={navItem}>
-                  Quản lý
-                </Link>
-              )}
-
               <button onClick={handleLogout} className={navItem}>
                 Đăng xuất
               </button>
             </>
           )}
         </div>
-
       </div>
     </nav>
   );

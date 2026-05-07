@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import api, { postAPI } from '../services/api';
 
-const PostDetailPage = () => {
+const PostPromotionPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   
@@ -77,11 +77,11 @@ const PostDetailPage = () => {
     try {
       if (id) {
         // Xem chi tiết bài viết cụ thể
-        const response = await postAPI.getById(id);
-        setPost(response.data);
+        // const response = await postAPI.getById(id);
+        // setPost(response.data);
         
         // Lấy thêm các bài viết gần đây (loại trừ bài hiện tại)
-        const recentRes = await postAPI.getAllPublished();
+        const recentRes = await postAPI.getAllPromotion();
         const currentId = parseInt(id, 10);
         const uniqueRecent = (recentRes.data || []).reduce((acc, post) => {
           if (post.id !== currentId && !acc.some((item) => item.id === post.id)) {
@@ -93,11 +93,10 @@ const PostDetailPage = () => {
         setRecentPosts(uniqueRecent.slice(0, 4));
       } else {
         // Xem bài viết nổi bật mới nhất (từ navigation)
-        const activeRes = await postAPI.getAllActive();
-        const publishedRes = await postAPI.getAllPublished();
+        const promotionRes = await postAPI.getAllPromotion();
         
         const allPostsMap = new Map();
-        [...(activeRes.data || []), ...(publishedRes.data || [])].forEach((post) => {
+        [...(promotionRes.data || [])].forEach((post) => {
           if (!allPostsMap.has(post.id)) {
             allPostsMap.set(post.id, post);
           }
@@ -429,4 +428,4 @@ const PostDetailPage = () => {
   );
 };
 
-export default PostDetailPage;
+export default PostPromotionPage;

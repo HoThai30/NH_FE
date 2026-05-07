@@ -29,6 +29,8 @@ import ReceptionistCreatePage from './pages/ReceptionistCreatePage';
 import ReceptionistEditPage from './pages/ReceptionistEditPage';
 import ServiceListPage from './pages/ServiceListPage';
 import PostDetailPage from './pages/PostDetailPage';
+import PostPromotionPage from './pages/PostPromotionPage';
+
 
 function App() {
   return (
@@ -199,6 +201,8 @@ function App() {
           {/* Public Post Detail - Hiển thị bài viết nổi bật mới nhất hoặc chi tiết bài viết */}
           <Route path="/posts/:id" element={<PostDetailPage />} />
           <Route path="/tin-tuc" element={<PostDetailPage />} />
+          <Route path="/khuyen-mai" element={<PostPromotionPage />} />
+
         </Routes>
       </AuthProvider>
     </BrowserRouter>

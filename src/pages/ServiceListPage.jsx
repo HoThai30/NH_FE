@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import api, { dentalServiceAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 const ServiceListPage = () => {
   const { user } = useAuth();
+
+  const navigate = useNavigate();
 
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,7 +45,7 @@ const ServiceListPage = () => {
     }
   };
 
-  // ✅ handle input
+  // handle input
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -52,7 +55,7 @@ const ServiceListPage = () => {
     }));
   };
 
-  // ✅ chọn ảnh
+  // chọn ảnh
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -153,7 +156,7 @@ const ServiceListPage = () => {
     }
   };
 
-  // ❌ check quyền
+  // check quyền
   if (!user || (user.role !== 'ADMIN' && user.role !== 'RECEPTIONIST')) {
     return <div className="p-6">Không có quyền truy cập</div>;
   }
@@ -162,6 +165,8 @@ const ServiceListPage = () => {
     <div className="p-6">
       <div className="flex justify-between mb-6">
         <h1 className="text-xl font-bold">Quản lý dịch vụ</h1>
+        <button onClick={() => navigate(-1)} className="btn-secondary mb-6">← Quay Lại</button>
+
         <button
           onClick={openCreate}
           className="bg-teal-600 text-white px-4 py-2 rounded"

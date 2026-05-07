@@ -52,6 +52,11 @@ export const doctorAPI = {
   create: (data) => api.post('/doctors', data),
   update: (id, data) => api.put(`/doctors/${id}`, data),
   getById: (id) => api.get(`/doctors/${id}`),
+  delete: (id) => api.delete(`/doctors/${id}`),
+  testDelete: (id) => api.delete(`/doctors/test-delete/${id}`), // Test endpoint
+  deleteViaPost: (id) => api.post(`/doctors/delete/${id}`, {}, {
+    headers: { 'X-HTTP-Method-Override': 'DELETE' }
+  }), // Alternative delete method
 };
 
 // Dental Service Endpoints
@@ -68,6 +73,7 @@ export const dentalServiceAPI = {
 export const postAPI ={
   getAllPublished: () => api.get('/posts'),
   getAllActive: () => api.get('/posts/active'),
+  getAllPromotion: () => api.get('/posts/promotion'),
   getAllAdmin: () => api.get('/posts/admin'),
   getById: (id) => api.get(`/posts/${id}`),
   uploadImage: (data) => api.post('/posts/upload', data),

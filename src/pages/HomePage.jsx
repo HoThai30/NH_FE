@@ -13,6 +13,7 @@ const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [servicePage, setServicePage] = useState(0);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [booking, setBooking] = useState({
@@ -108,15 +109,6 @@ const HomePage = () => {
       currency: "VND",
     }).format(value);
   };
-  
-  const scroll = (direction) => {
-    const { current } = scrollRef;
-    if (direction === "left") {
-      current.scrollBy({ left: -400, behavior: "smooth" });
-    } else {
-      current.scrollBy({ left: 400, behavior: "smooth" });
-    }
-  }; 
 
  const hero = "/public/uploads/anhhero1.jpg";
  const about = "/public/uploads/anhbia.jpg"
@@ -136,6 +128,70 @@ const HomePage = () => {
  ]
  const totalGalleryPages = Math.ceil(galleryImages.length / 5);
  const currentGallery = galleryImages.slice(galleryPage * 5, galleryPage * 5+5);
+
+ const servicesPerPage = 4;
+ const totalServicePages = Math.max(1, services.length - servicesPerPage + 1);
+ const currentServices = services.slice(servicePage, servicePage + servicesPerPage);
+
+ useEffect(() => {
+   if (servicePage > totalServicePages - 1) {
+     setServicePage(totalServicePages - 1);
+   }
+ }, [servicePage, totalServicePages]);
+
+ const serviceCards = isLoading ? (
+   <div className="text-white/50 py-8">Đang tải dịch vụ...</div>
+ ) : currentServices.length > 0 ? (
+   currentServices.map((service) => (
+     <div
+       key={service.id}
+       className="rounded-2xl overflow-hidden flex flex-col bg-white transition hover:-translate-y-1 hover:shadow-xl"
+       style={{ boxShadow: "0 4px 18px rgba(0,0,0,0.15)" }}
+     >
+       <div
+         className="w-full h-[180px] overflow-hidden"
+         style={{ backgroundColor: "#f5ede6" }}
+       >
+         {service.imgService ? (
+           <img
+             src={`/uploads/${service.imgService}`}
+             alt={service.name}
+             className="w-full h-full object-cover"
+             onError={(e) => {
+               e.target.src = "https://via.placeholder.com/300x200?text=No+Image";
+             }}
+           />
+         ) : (
+           <div className="flex items-center justify-center h-full text-gray-300 text-xs">
+             Chưa có ảnh
+           </div>
+         )}
+       </div>
+
+       <div className="px-4 py-4 flex flex-col flex-1">
+         <p className="text-[10px] font-bold tracking-widest uppercase text-[#1a0500] mb-1">
+           {service.category || "Nha Khoa"}
+         </p>
+
+         <p className="font-semibold text-gray-900 text-sm line-clamp-2 min-h-[40px]">
+           {service.name}
+         </p>
+
+         <p className="text-gray-400 text-xs mt-1 line-clamp-3 min-h-[48px]">
+           {service.description || "Dịch vụ nha khoa chuyên nghiệp"}
+         </p>
+
+         <p className="font-black text-gray-900 text-sm mt-auto">
+           {formatPrice(service.price)}
+         </p>
+       </div>
+     </div>
+   ))
+ ) : (
+   <div className="text-white/50 py-8">
+     {error || "Đang cập nhật dịch vụ nha khoa"}
+   </div>
+ );
 
  const map = "/public/uploads/map.jpg";
 
@@ -212,7 +268,7 @@ const HomePage = () => {
 
             {/* Description */}
             <p className="text-white/70 text-sm leading-relaxed max-w-md">
-               Chăm sóc răng miệng toàn diện với đội ngũ bác sĩ chuyên môn cao và công nghệ hiện đại.
+               Chăm sóc răng miệng toàn diện tại nha khoa quốc tế Á Châu II với đội ngũ bác sĩ chuyên môn cao và công nghệ hiện đại.
             </p>
           </div>
           <div className="flex-1">
@@ -236,7 +292,7 @@ const HomePage = () => {
                       <p className="text-xs text-red-800">Khách hàng</p>
                     </div>
 
-                    <div className="bg-white rounded-lg p-4 text-center backdrop-blur-sm">
+                    <div className="bg-yellow-300 rounded-lg p-4 text-center backdrop-blur-sm">
                       <p className="text-xl text-red-800 font-bold">100%</p>
                       <p className="text-xs text-red-800">Hài lòng</p>
                     </div>
@@ -304,12 +360,12 @@ const HomePage = () => {
                         disabled={setGalleryPage ===0}
                         className="w-10 h-10 rounded-full flex items-center justify-center border text-lg font-bold transition"
                         style={{backgroundColor: galleryPage === 0? "#e8d8cc" : "white", color: galleryPage === 0? "#b0907a":"#1a0a00", borderColor:"d6c4b0", cursor: galleryPage ===0?"default": "pointer"}}
-                  > * </button>
+                  >   ← </button>
                 <button onClick={() => setGalleryPage(p => Math.min(totalGalleryPages -1, p+1))}
                         disabled={galleryPage === totalGalleryPages -1}
                         className="w-10 h-10 rounded-full flex items-center justify-center border text-lg font-bold transition"
                         style={{backgroundColor: galleryPage === totalGalleryPages -1? "#e8d8cc" : "white", color: galleryPage === totalGalleryPages -1? "#b0907a":"#1a0a00", borderColor:"d6c4b0", cursor: galleryPage ===totalGalleryPages -1?"default": "pointer"}}
-                  > * </button>
+                  >   → </button>
               </div>
             </div>
 
@@ -348,76 +404,64 @@ const HomePage = () => {
               </div>    
           </div>
       </div>
-                {/* service */}
-      <div id="dich-vu" className="py-14 px-6" style={{background: "#2b0202"}}>
-               {/* chữ mờ */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden" style={{zIndex: 0}}>
-              <div className="text-center font-black text-white leading-none" style={{opacity: 0.05, fontFamily: "serif"}}>
-                <div style={{fontSize: "clamp(60px, 11vw, 150px)", letterSpacing: "0.08em"}}>Á CHÂU</div>
-                <div style={{fontSize: "clamp(50px, 9vw, 120px)", letterSpacing: "0.15em"}}>II</div>
-              </div>
+   {/* service */}
+      <div id="dich-vu" className="py-14 px-6 relative" style={{ background: "#2b0202" }}>
+        
+        {/* chữ mờ */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
+          <div className="text-center font-black text-white leading-none opacity-5" style={{ fontFamily: "serif" }}>
+            <div style={{ fontSize: "clamp(60px, 11vw, 150px)", letterSpacing: "0.08em" }}>Á CHÂU</div>
+            <div style={{ fontSize: "clamp(50px, 9vw, 120px)", letterSpacing: "0.15em" }}>II</div>
+          </div>
         </div>
-        <div className="max-w-[1100px] mx-auto relative" style={{zIndex: 1}}>
 
+        <div className="max-w-[1100px] mx-auto relative z-10">
+
+          {/* header */}
           <div className="flex items-start justify-between mb-10">
             <div className="max-w-lg">
-                <h2 className="text-3xl font-black leading-tight text-white mb-3" style={{fontFamily:"serif"}}>Dịch Vụ Nha Khoa</h2>
-                <p className="text-white/50 text-sm leading-relaxed">Khám phá các dịch vụ nổi bật tại Nha Khoa Quốc Tế Á Châu II</p>
+              <h2 className="text-3xl font-black leading-tight text-white mb-3" style={{ fontFamily: "serif" }}>
+                Dịch Vụ Nha Khoa
+              </h2>
+              <p className="text-white/50 text-sm">
+                Khám phá các dịch vụ nổi bật tại Nha Khoa Quốc Tế Á Châu II
+              </p>
             </div>
-            <div className="flex items-center gap-2 mt-1 flex-shrink-0">
-              <button  onClick={ () => setRefreshKey(prev => prev+1)}
-                       className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition"
-                       style={{backgroundColor: "rgba(255, 255, 255, 0.12)", color:"white"}}
-                > ? </button>
 
-                <button 
-                       className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold "
-                       style={{backgroundColor: "#D4A843", color:"#1a0000"}}
-                > ? </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setServicePage((prev) => Math.max(0, prev - 1))}
+                disabled={servicePage === 0}
+                className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed"
+                style={{ backgroundColor: "rgba(255,255,255,0.12)", color: "white" }}
+              >
+                ←
+              </button>
+
+              <button
+                onClick={() => setServicePage((prev) => Math.min(totalServicePages - 1, prev + 1))}
+                disabled={servicePage === totalServicePages - 1}
+                className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed"
+                style={{ backgroundColor: "#D4A843", color: "#1a0000" }}
+              >
+                →
+              </button>
             </div>
           </div>
 
-          {/* {card} */}
-              <div className=" overflow-x-auto scrollbar-hide">
-                <div className="flex gap-4 min-w-max pb-2">
-                  {isLoading ? (
-                    <div className="text-white/50 py-8"> Đang tải dịch vụ...</div>
-                  ) : services.length > 0? services.map((service) => (
-                     <div key={service.id} className="w-[220px]flex-shrink-0 rounded-2xl overflow-hidden flex flex-col" style={{backgroundColor: "#fff", boxShadow: "0 4px 20px rgba(0,0,0,0.18)"}}>
-                      {/* image area -white bg */}
-                      <div className="flex items-center justify-center p-4" style={{backgroundColor: "#f5ede6", height: 190}}>
-                        {service.imgService ? (
-                            <img src={`/uploads/${service.imgService}`} 
-                            alt={service.name} 
-                            className="h-36 w-full object-contain"
-                            onError={(e) => {e.target.src = "https://via.placeholder.com/180x144?text=No+Image";}}
-                            />
-                        ) : (
-                          <div className="text-gray-300 text-xs">chưa có ảnh</div>
-                        )}
-                      </div>
+          {/* cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+            {serviceCards}
+          </div>
 
-                      {/* info */}
-                      <div className="px-4 pt-3 pb-4 flex flex-col gap-1 flex-1">
-                        <p className="text-xs font-bold tracking-[0.15em] uppercase" style={{color:"#1a0500"}}> { service.category || "Nha Khoa"}</p>
-                        <p className="font-bold text-gray-900 text-sm leading-snug mt-0.5">{service.name}</p>
-                        <p className="text-gray-400 text-xs leading-relaxed flex-1 mt-1">{service.description || "Dịch Vụ Nhoa Khoa Chuyên Nghiệp"}</p>
-                        <p className="font-black text-gray-900 text-sm mt-3">{formatPrice(service.price)}</p>
-                      </div>
-                     </div>
-                  )) : (
-                    <div className="text-white/50 py-8">{ error || " Đang cập nhật dịch vụ nhoa khoa"}</div>
-                  )}
-                </div>
-              </div>
         </div>
       </div>
 
       {/* NEWS */}
       <div className="py-12 bg-yellow-100">
         <div className="max-w-[1100px] mx-auto">
-          <h2 className="text-center text-green-700 font-bold mb-8 text-xl">
-            TIN TỨC
+          <h2 className="text-center text-green-700 font-bold mb-8 text-3xl"  style={{color:"#1a0a00", fontFamily:"serif"}}>
+            Tin tức & Khuyến mãi
           </h2>
 
           {posts.length === 0 && !isLoading ? (

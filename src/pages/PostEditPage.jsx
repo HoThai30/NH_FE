@@ -13,7 +13,8 @@ const PostEditPage = () => {
     content: '',
     imageUrl: '',
     published: false,
-    active: false
+    active: false,
+    promotion: false
   });
   const [previewImage, setPreviewImage] = useState(null);
   const [errors, setErrors] = useState({});
@@ -28,7 +29,9 @@ const PostEditPage = () => {
           content: post.content || '',
           imageUrl: post.imageUrl || '',
           published: post.published || false,
-          active: post.active || false
+          active: post.active || false,
+          promotion: post.promotion || false,
+
         });
         if (post.imageUrl) {
           setPreviewImage(`/uploads/${post.imageUrl}`);
@@ -310,6 +313,27 @@ const PostEditPage = () => {
                     </label>
                     <p className="text-gray-500">
                       Bài viết nổi bật sẽ được hiển thị ở trang chủ
+                    </p>
+                  </div>
+                </div>
+                {/* promotion */}
+                <div className="flex items-start">
+                  <div className="flex h-5 items-center">
+                    <input
+                      id="promotion"
+                      name="promotion"
+                      type="checkbox"
+                      checked={formData.promotion}
+                      onChange={handleInputChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div className="ml-3 text-sm">
+                    <label htmlFor="promotion" className="font-medium text-gray-700">
+                      Khuyến mãi
+                    </label>
+                    <p className="text-gray-500">
+                      Bài viết khuyến mãi
                     </p>
                   </div>
                 </div>

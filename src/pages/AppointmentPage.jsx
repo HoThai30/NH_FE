@@ -35,18 +35,18 @@ export default function AppointmentPage() {
     }
   };
 
-  const handleCheckIn = async () => {
-    setCheckingIn(true);
-    try {
-      const response = await appointmentAPI.checkIn(id);
-      setAppointment(response.data);
-      alert('Kiểm tra vào thành công');
-    } catch (err) {
-      alert('Lỗi: ' + (err.response?.data || 'Không thể kiểm tra vào'));
-    } finally {
-      setCheckingIn(false);
-    }
-  };
+  // const handleCheckIn = async () => {
+  //   setCheckingIn(true);
+  //   try {
+  //     const response = await appointmentAPI.checkIn(id);
+  //     setAppointment(response.data);
+  //     alert('Kiểm tra vào thành công');
+  //   } catch (err) {
+  //     alert('Lỗi: ' + (err.response?.data || 'Không thể kiểm tra vào'));
+  //   } finally {
+  //     setCheckingIn(false);
+  //   }
+  // };
 
   const handleConfirm = async () => {
     if (!window.confirm('Bạn có chắc muốn xác nhận cuộc hẹn này và tạo hồ sơ khám?')) return;
@@ -136,13 +136,6 @@ export default function AppointmentPage() {
                 className="btn-primary mr-4"
               >
                 {confirming ? 'Đang tải...' : 'Xác Nhận & Tạo Hồ Sơ Khám'}
-              </button>
-              <button
-                onClick={handleCheckIn}
-                disabled={checkingIn}
-                className="btn-success"
-              >
-                {checkingIn ? 'Đang tải...' : 'Kiểm Tra Vào'}
               </button>
             </div>
           )}

@@ -8,11 +8,9 @@ export default function Dashboard() {
   const menuItems = [
    
     { title: 'Danh Sách Bác Sĩ', path: '/doctors', roles: ['ADMIN'] },
-    { title: 'Tạo Bác Sĩ', path: '/doctors/create', roles: ['ADMIN'] },
     { title: 'Danh Sách Lễ Tân', path: '/receptionists', roles: ['ADMIN'] },
-    { title: 'Tạo Lễ Tân', path: '/receptionists/create', roles: ['ADMIN'] },
     { title: 'Quản Lý Dịch Vụ', path: '/services', roles: ['ADMIN', 'RECEPTIONIST'] },
-    { title: 'Đặt Cuộc Hẹn', path: '/appointments/new', roles: ['PATIENT', 'RECEPTIONIST', 'ADMIN'] },
+    { title: 'Đặt Cuộc Hẹn', path: '/appointments/new', roles: ['RECEPTIONIST', 'ADMIN'] },
     { title: 'Danh Sách Cuộc Hẹn', path: '/appointments', roles: ['DOCTOR', 'RECEPTIONIST', 'ADMIN'] },
     { title: 'Hồ Sơ Khám', path: '/visits', roles: ['DOCTOR', 'ADMIN'] },
     { title: 'Gửi Thông Báo', path: '/notifications/send', roles: ['RECEPTIONIST', 'ADMIN'] },
