@@ -5,9 +5,11 @@ import api from '../services/api';
 const PostEditPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -16,6 +18,7 @@ const PostEditPage = () => {
     active: false,
     promotion: false
   });
+
   const [previewImage, setPreviewImage] = useState(null);
   const [errors, setErrors] = useState({});
 
@@ -24,6 +27,7 @@ const PostEditPage = () => {
       try {
         const response = await api.get(`/posts/${id}`);
         const post = response.data;
+
         setFormData({
           title: post.title || '',
           content: post.content || '',
@@ -31,8 +35,8 @@ const PostEditPage = () => {
           published: post.published || false,
           active: post.active || false,
           promotion: post.promotion || false,
-
         });
+
         if (post.imageUrl) {
           setPreviewImage(`/uploads/${post.imageUrl}`);
         }
@@ -50,10 +54,12 @@ const PostEditPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -77,16 +83,19 @@ const PostEditPage = () => {
     }
 
     const reader = new FileReader();
+
     reader.onloadend = () => {
       setPreviewImage(reader.result);
     };
+
     reader.readAsDataURL(file);
 
     setUploading(true);
+
     try {
       const formDataFile = new FormData();
       formDataFile.append('file', file);
-      
+
       const response = await api.post('/posts/upload', formDataFile, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -109,10 +118,16 @@ const PostEditPage = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.title.trim()) newErrors.title = 'Vui lòng nhập tiêu đề';
-    if (!formData.content.trim()) newErrors.content = 'Vui lòng nhập nội dung';
+    if (!formData.title.trim()) {
+      newErrors.title = 'Vui lòng nhập tiêu đề';
+    }
+
+    if (!formData.content.trim()) {
+      newErrors.content = 'Vui lòng nhập nội dung';
+    }
 
     setErrors(newErrors);
+
     return Object.keys(newErrors).length === 0;
   };
 
@@ -122,11 +137,16 @@ const PostEditPage = () => {
     if (!validateForm()) return;
 
     setLoading(true);
+
     try {
       await api.put(`/posts/${id}`, formData);
+
+      alert('Cập nhật bài viết thành công');
+
       navigate('/posts');
     } catch (error) {
       console.error('Error updating post:', error);
+
       if (error.response?.data) {
         alert('Lỗi: ' + error.response.data);
       } else {
@@ -139,225 +159,413 @@ const PostEditPage = () => {
 
   if (initialLoading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ backgroundColor: '#1a0000' }}
+      >
+        <div className="text-center">
+          <div
+            className="w-14 h-14 border-4 border-yellow-400/30 border-t-yellow-400 rounded-full animate-spin mx-auto mb-4"
+          />
+          <p className="text-white/60">
+            Đang tải bài viết...
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="md:grid md:grid-cols-3 md:gap-6">
-        <div className="md:col-span-1">
-          <div className="px-4 sm:px-0">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">Chỉnh sửa bài viết</h3>
-            <p className="mt-1 text-sm text-gray-600">
-              Cập nhật nội dung bài viết quảng cáo hoặc thông báo.
+    <div
+      className="min-h-screen"
+      style={{ backgroundColor: '#1a0000' }}
+    >
+      {/* TOPBAR */}
+      <div className="border-b border-white/10">
+        <div className="max-w-[1400px] mx-auto px-6 h-[78px] flex items-center justify-between">
+          <div>
+            <p className="text-[10px] tracking-[0.25em] uppercase text-yellow-400 font-bold mb-1">
+              Luxury Dental CMS
             </p>
+
+            <h1
+              className="text-2xl font-black text-white"
+              style={{ fontFamily: 'serif' }}
+            >
+              Chỉnh Sửa Bài Viết
+            </h1>
+          </div>
+
+          <button
+            onClick={() => navigate('/posts')}
+            className="h-11 px-5 rounded-full border border-white/10 text-white/70 hover:text-white hover:bg-white/[0.05] transition text-sm font-medium"
+          >
+            ← Quay lại
+          </button>
+        </div>
+      </div>
+
+      <div className="max-w-[1400px] mx-auto px-6 py-8">
+        {/* HERO */}
+        <div
+          className="relative overflow-hidden rounded-[32px] border border-white/10 p-8 mb-8"
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))'
+          }}
+        >
+          <div
+            className="absolute -top-24 -right-24 w-[320px] h-[320px] rounded-full blur-3xl"
+            style={{
+              background: 'rgba(212,168,67,0.10)'
+            }}
+          />
+
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+            <div className="max-w-2xl">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-yellow-400 font-bold mb-3">
+                Post Management
+              </p>
+
+              <h2
+                className="text-4xl md:text-5xl font-black text-white leading-tight"
+                style={{ fontFamily: 'serif' }}
+              >
+                Chỉnh Sửa
+                <br />
+                Nội Dung
+              </h2>
+
+              <p className="text-white/50 text-sm leading-relaxed mt-5 max-w-xl">
+                Cập nhật bài viết quảng cáo, thông báo và nội dung truyền thông
+                theo giao diện luxury dental hiện đại.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 min-w-[320px]">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                <p className="text-white/40 text-xs uppercase mb-2">
+                  Trạng thái
+                </p>
+
+                <h3 className="text-2xl font-black text-green-400">
+                  Editing
+                </h3>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                <p className="text-white/40 text-xs uppercase mb-2">
+                  Upload
+                </p>
+
+                <h3 className="text-2xl font-black text-yellow-400">
+                  {uploading ? 'Uploading...' : 'Ready'}
+                </h3>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                <p className="text-white/40 text-xs uppercase mb-2">
+                  Published
+                </p>
+
+                <h3 className="text-lg font-black text-white">
+                  {formData.published ? 'YES' : 'NO'}
+                </h3>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                <p className="text-white/40 text-xs uppercase mb-2">
+                  Promotion
+                </p>
+
+                <h3 className="text-lg font-black text-white">
+                  {formData.promotion ? 'ACTIVE' : 'OFF'}
+                </h3>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="mt-5 md:col-span-2 md:mt-0">
-          <form onSubmit={handleSubmit}>
-            <div className="shadow sm:overflow-hidden sm:rounded-md">
-              <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
-                {/* Title */}
+
+        {/* FORM */}
+        <form onSubmit={handleSubmit}>
+          <div className="grid lg:grid-cols-[1fr_380px] gap-6">
+            {/* LEFT */}
+            <div
+              className="rounded-[32px] border border-white/10 overflow-hidden"
+              style={{
+                background:
+                  'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03))'
+              }}
+            >
+              <div className="p-8 border-b border-white/10">
+                <h3
+                  className="text-2xl font-black text-white mb-2"
+                  style={{ fontFamily: 'serif' }}
+                >
+                  Nội Dung Bài Viết
+                </h3>
+
+                <p className="text-white/40 text-sm">
+                  Chỉnh sửa tiêu đề, mô tả và hình ảnh bài viết.
+                </p>
+              </div>
+
+              <div className="p-8 space-y-6">
+                {/* TITLE */}
                 <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                    Tiêu đề *
+                  <label className="block text-sm font-bold text-white mb-3 uppercase tracking-[0.15em]">
+                    Tiêu đề bài viết
                   </label>
+
                   <input
                     type="text"
-                    id="title"
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border ${
-                      errors.title ? 'border-red-300' : 'border-gray-300'
+                    placeholder="Nhập tiêu đề bài viết..."
+                    className={`w-full h-14 rounded-2xl px-5 bg-white/[0.04] border text-white placeholder:text-white/30 outline-none transition ${
+                      errors.title
+                        ? 'border-red-400'
+                        : 'border-white/10 focus:border-yellow-400/40'
                     }`}
-                    placeholder="Nhập tiêu đề bài viết"
                   />
+
                   {errors.title && (
-                    <p className="mt-1 text-sm text-red-600">{errors.title}</p>
+                    <p className="text-red-400 text-sm mt-2">
+                      {errors.title}
+                    </p>
                   )}
                 </div>
 
-                {/* Content */}
+                {/* CONTENT */}
                 <div>
-                  <label htmlFor="content" className="block text-sm font-medium text-gray-700">
-                    Nội dung *
+                  <label className="block text-sm font-bold text-white mb-3 uppercase tracking-[0.15em]">
+                    Nội dung
                   </label>
+
                   <textarea
-                    id="content"
                     name="content"
-                    rows={6}
+                    rows={10}
                     value={formData.content}
                     onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border ${
-                      errors.content ? 'border-red-300' : 'border-gray-300'
+                    placeholder="Nhập nội dung bài viết..."
+                    className={`w-full rounded-2xl px-5 py-4 bg-white/[0.04] border text-white placeholder:text-white/30 outline-none transition resize-none ${
+                      errors.content
+                        ? 'border-red-400'
+                        : 'border-white/10 focus:border-yellow-400/40'
                     }`}
-                    placeholder="Nhập nội dung bài viết"
                   />
+
                   {errors.content && (
-                    <p className="mt-1 text-sm text-red-600">{errors.content}</p>
+                    <p className="text-red-400 text-sm mt-2">
+                      {errors.content}
+                    </p>
                   )}
                 </div>
 
-                {/* Image Upload */}
+                {/* IMAGE */}
                 <div>
-                  <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">
-                    Hình ảnh quảng cáo (JPG, PNG, tối đa 5MB)
+                  <label className="block text-sm font-bold text-white mb-3 uppercase tracking-[0.15em]">
+                    Hình ảnh bài viết
                   </label>
-                  <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                    <div className="space-y-1 text-center">
-                      {previewImage ? (
-                        <div className="relative">
-                          <img
-                            src={previewImage}
-                            alt="Preview"
-                            className="mx-auto h-32 w-auto rounded"
-                          />
+
+                  <div className="border border-dashed border-white/15 rounded-3xl p-6 bg-white/[0.02]">
+                    {previewImage ? (
+                      <div>
+                        <img
+                          src={previewImage}
+                          alt="Preview"
+                          className="w-full h-[320px] object-cover rounded-2xl"
+                        />
+
+                        <div className="flex items-center justify-between mt-4">
+                          <p className="text-white/40 text-sm">
+                            Hình ảnh xem trước
+                          </p>
+
                           <button
                             type="button"
                             onClick={() => {
                               setPreviewImage(null);
-                              setFormData(prev => ({ ...prev, imageUrl: '' }));
+
+                              setFormData(prev => ({
+                                ...prev,
+                                imageUrl: ''
+                              }));
                             }}
-                            className="mt-2 text-sm text-red-600 hover:text-red-700"
+                            className="text-red-400 hover:text-red-300 text-sm"
                           >
                             Xóa ảnh
                           </button>
                         </div>
-                      ) : (
-                        <>
-                          <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-8l-3.172-3.172a4 4 0 00-5.656 0L28 20M8 28l3.172-3.172a4 4 0 015.656 0L20 28"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="imageFile"
-                              className="relative cursor-pointer rounded-md bg-white font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none"
-                            >
-                              <span>Chọn file</span>
-                              <input
-                                id="imageFile"
-                                name="imageFile"
-                                type="file"
-                                accept="image/*"
-                                onChange={handleFileChange}
-                                disabled={uploading}
-                                className="sr-only"
-                              />
-                            </label>
-                            <p className="pl-1">hoặc kéo thả vào đây</p>
-                          </div>
-                          <p className="text-xs text-gray-500">PNG, JPG, GIF tối đa 5MB</p>
-                        </>
-                      )}
-                      {uploading && (
-                        <div className="mt-2">
-                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
-                          <p className="text-sm text-gray-600 mt-2">Đang upload...</p>
+                      </div>
+                    ) : (
+                      <div className="py-10 text-center">
+                        <div className="text-5xl mb-4">
+                          🖼️
                         </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
 
-                {/* Published */}
-                <div className="flex items-start">
-                  <div className="flex h-5 items-center">
-                    <input
-                      id="published"
-                      name="published"
-                      type="checkbox"
-                      checked={formData.published}
-                      onChange={handleInputChange}
-                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label htmlFor="published" className="font-medium text-gray-700">
-                      Xuất bản
-                    </label>
-                    <p className="text-gray-500">
-                      Bài viết được chia sẻ công khai hoặc được lưu dưới dạng nháp
-                    </p>
-                  </div>
-                </div>
+                        <p className="text-white font-semibold mb-2">
+                          Upload hình ảnh bài viết
+                        </p>
 
-                {/* Active */}
-                <div className="flex items-start">
-                  <div className="flex h-5 items-center">
-                    <input
-                      id="active"
-                      name="active"
-                      type="checkbox"
-                      checked={formData.active}
-                      onChange={handleInputChange}
-                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label htmlFor="active" className="font-medium text-gray-700">
-                      Bài viết nổi bật
-                    </label>
-                    <p className="text-gray-500">
-                      Bài viết nổi bật sẽ được hiển thị ở trang chủ
-                    </p>
-                  </div>
-                </div>
-                {/* promotion */}
-                <div className="flex items-start">
-                  <div className="flex h-5 items-center">
-                    <input
-                      id="promotion"
-                      name="promotion"
-                      type="checkbox"
-                      checked={formData.promotion}
-                      onChange={handleInputChange}
-                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label htmlFor="promotion" className="font-medium text-gray-700">
-                      Khuyến mãi
-                    </label>
-                    <p className="text-gray-500">
-                      Bài viết khuyến mãi
-                    </p>
-                  </div>
-                </div>
-              </div>
+                        <p className="text-white/40 text-sm mb-6">
+                          PNG, JPG hoặc WEBP tối đa 5MB
+                        </p>
 
-              <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                <button
-                  type="button"
-                  onClick={() => navigate('/posts')}
-                  className="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mr-3"
-                >
-                  Hủy
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading || uploading}
-                  className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {loading ? 'Đang lưu...' : 'Lưu thay đổi'}
-                </button>
+                        <label
+                          htmlFor="imageFile"
+                          className="inline-flex items-center justify-center h-12 px-6 rounded-2xl font-bold cursor-pointer transition hover:scale-[1.02]"
+                          style={{
+                            background: '#D4A843',
+                            color: '#1a0000'
+                          }}
+                        >
+                          Chọn hình ảnh
+                        </label>
+
+                        <input
+                          id="imageFile"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          disabled={uploading}
+                          className="hidden"
+                        />
+                      </div>
+                    )}
+
+                    {uploading && (
+                      <div className="mt-6 flex items-center gap-3 text-yellow-400">
+                        <div className="w-5 h-5 border-2 border-yellow-400/30 border-t-yellow-400 rounded-full animate-spin" />
+                        <span className="text-sm font-medium">
+                          Đang upload hình ảnh...
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
-          </form>
-        </div>
+
+            {/* RIGHT */}
+            <div className="space-y-6">
+              {/* SETTINGS */}
+              <div
+                className="rounded-[32px] border border-white/10 overflow-hidden"
+                style={{
+                  background:
+                    'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03))'
+                }}
+              >
+                <div className="p-6 border-b border-white/10">
+                  <h3
+                    className="text-2xl font-black text-white"
+                    style={{ fontFamily: 'serif' }}
+                  >
+                    Cài Đặt
+                  </h3>
+                </div>
+
+                <div className="p-6 space-y-5">
+                  {/* PUBLISHED */}
+                  <label className="flex items-start gap-4 p-4 rounded-2xl border border-white/10 bg-white/[0.03] cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="published"
+                      checked={formData.published}
+                      onChange={handleInputChange}
+                      className="mt-1 w-5 h-5 accent-yellow-400"
+                    />
+
+                    <div>
+                      <p className="text-white font-semibold">
+                        Xuất bản bài viết
+                      </p>
+
+                      <p className="text-white/40 text-sm mt-1">
+                        Hiển thị bài viết công khai trên website.
+                      </p>
+                    </div>
+                  </label>
+
+                  {/* ACTIVE */}
+                  <label className="flex items-start gap-4 p-4 rounded-2xl border border-white/10 bg-white/[0.03] cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="active"
+                      checked={formData.active}
+                      onChange={handleInputChange}
+                      className="mt-1 w-5 h-5 accent-yellow-400"
+                    />
+
+                    <div>
+                      <p className="text-white font-semibold">
+                        Bài viết nổi bật
+                      </p>
+
+                      <p className="text-white/40 text-sm mt-1">
+                        Hiển thị tại khu vực featured ở trang chủ.
+                      </p>
+                    </div>
+                  </label>
+
+                  {/* PROMOTION */}
+                  <label className="flex items-start gap-4 p-4 rounded-2xl border border-white/10 bg-white/[0.03] cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="promotion"
+                      checked={formData.promotion}
+                      onChange={handleInputChange}
+                      className="mt-1 w-5 h-5 accent-yellow-400"
+                    />
+
+                    <div>
+                      <p className="text-white font-semibold">
+                        Khuyến mãi
+                      </p>
+
+                      <p className="text-white/40 text-sm mt-1">
+                        Đánh dấu bài viết thuộc chương trình ưu đãi.
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              {/* ACTIONS */}
+              <div
+                className="rounded-[32px] border border-white/10 p-6"
+                style={{
+                  background:
+                    'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03))'
+                }}
+              >
+                <div className="flex flex-col gap-3">
+                  <button
+                    type="submit"
+                    disabled={loading || uploading}
+                    className="h-14 rounded-2xl font-black text-sm transition hover:scale-[1.01] disabled:opacity-50"
+                    style={{
+                      background: '#D4A843',
+                      color: '#1a0000'
+                    }}
+                  >
+                    {loading ? 'Đang lưu...' : 'Lưu Thay Đổi'}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => navigate('/posts')}
+                    className="h-14 rounded-2xl border border-white/10 text-white/70 hover:text-white hover:bg-white/[0.05] transition font-semibold"
+                  >
+                    Hủy chỉnh sửa
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   );
