@@ -12,15 +12,14 @@ export default function ReceptionistListPage() {
   const [error, setError] = useState("");
 
   const getReceptionistAvatar = (receptionist) => {
-    const base64 =
-      receptionist.user?.profilePicture ||
-      receptionist.profilePicture;
+    const avatar =
+        receptionist.user?.profilePicture ||
+        receptionist.profilePicture;
+        if (!avatar || avatar === "null") {
+        return "/default-avatar.png";
+      }
 
-    if (!base64) return null;
-
-    return base64.startsWith("data:")
-      ? base64
-      : `data:image/jpeg;base64,${base64}`;
+      return avatar;
   };
 
   useEffect(() => {
@@ -238,9 +237,12 @@ export default function ReceptionistListPage() {
                         src={getReceptionistAvatar(
                           receptionist
                         )}
-                        alt={receptionist.user?.name}
+                        alt={receptionist.user?.name || "Reception"}
                         className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
-                      />
+                           onError={(e) => {
+                           e.target.src = "/default-avatar.png";
+                     }}
+                    />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-white/30">
                         Không có ảnh

@@ -12,13 +12,15 @@ export default function DoctorListPage() {
   const [error, setError] = useState("");
 
   const getDoctorAvatar = (doctor) => {
-    const base64 = doctor.user?.profilePicture || doctor.profilePicture;
+    const avatar =
+      doctor.user?.profilePicture ||
+      doctor.profilePicture;
 
-    if (!base64) return null;
+    if (!avatar || avatar === "null") {
+      return "/default-avatar.png";
+    }
 
-    return base64.startsWith("data:")
-      ? base64
-      : `data:image/jpeg;base64,${base64}`;
+    return avatar;
   };
 
   const handleDelete = async (doctorId) => {
@@ -231,8 +233,11 @@ export default function DoctorListPage() {
                   {getDoctorAvatar(doctor) ? (
                     <img
                       src={getDoctorAvatar(doctor)}
-                      alt={doctor.user?.name}
+                      alt={doctor.user?.name || "Doctor"}
                       className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+                      onError={(e) => {
+                        e.target.src = "/default-avatar.png";
+                      }}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-white/30">

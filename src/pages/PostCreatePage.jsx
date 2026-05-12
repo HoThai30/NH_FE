@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import api from "../services/api";
 
+import { uploadToCloudinary, validateImage } from "../services/cloudinaryUtils";
+
 const PostCreatePage = () => {
   const navigate = useNavigate();
 
@@ -60,24 +62,10 @@ const PostCreatePage = () => {
 
     if (!file) return;
 
-    if (
-      !file.type.startsWith(
-        "image/"
-      )
-    ) {
-      alert(
-        "Vui lòng chọn file hình ảnh"
-      );
-      return;
-    }
-
-    if (
-      file.size >
-      5 * 1024 * 1024
-    ) {
-      alert(
-        "Kích thước file không được vượt quá 5MB"
-      );
+    // Validate image
+    const validation = validateImage(file);
+    if (!validation.valid) {
+      alert("Lỗi: " + validation.error);
       return;
     }
 
@@ -94,37 +82,12 @@ const PostCreatePage = () => {
     setUploading(true);
 
     try {
-      const formDataFile =
-        new FormData();
-
-      formDataFile.append(
-        "file",
-        file
-      );
-
-      const response =
-        await api.post(
-          "/posts/upload",
-          formDataFile
-        );
-
-      const filename =
-        response.data?.filename ||
-        response.data;
-
-      if (
-        !filename ||
-        typeof filename !==
-          "string"
-      ) {
-        throw new Error(
-          "Không nhận được tên file từ server."
-        );
-      }
+      // Upload to Cloudinary
+      const imageUrl = await uploadToCloudinary(file);
 
       setFormData((prev) => ({
         ...prev,
-        imageUrl: filename,
+        imageUrl: imageUrl,
       }));
     } catch (error) {
       console.error(
@@ -134,8 +97,7 @@ const PostCreatePage = () => {
 
       alert(
         "Lỗi upload hình ảnh: " +
-          (error.response?.data ||
-            error.message)
+          error.message
       );
 
       setPreviewImage(null);

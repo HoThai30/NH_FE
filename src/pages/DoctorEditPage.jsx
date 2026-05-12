@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { doctorAPI } from "../services/api";
+import { uploadToCloudinary, validateImage } from "../services/cloudinaryUtils";
 
 export default function DoctorEditPage() {
   const { id } = useParams();
@@ -87,9 +88,16 @@ export default function DoctorEditPage() {
         if (
           data.user?.profilePicture
         ) {
-          setImagePreview(
-            `data:image/jpeg;base64,${data.user.profilePicture}`
-          );
+          // Check if it's already a URL or needs prefix
+          if (data.user.profilePicture.startsWith('http')) {
+            setImagePreview(data.user.profilePicture);
+          } else if (data.user.profilePicture.startsWith('data:')) {
+            setImagePreview(data.user.profilePicture);
+          } else {
+            setImagePreview(
+              `data:image/jpeg;base64,${data.user.profilePicture}`
+            );
+          }
         }
       } catch (err) {
         setError(
@@ -125,35 +133,44 @@ export default function DoctorEditPage() {
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
 
     if (!file) return;
 
+    // Validate image
+    const validation = validateImage(file);
+    if (!validation.valid) {
+      alert("Lỗi: " + validation.error);
+      return;
+    }
+
+    // Show preview
     const reader = new FileReader();
-
     reader.onloadend = () => {
-      const base64String =
-        reader.result.split(",")[1];
-
       setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+    try {
+      // Upload to Cloudinary
+      const imageUrl = await uploadToCloudinary(file);
 
       setFormData({
         ...formData,
 
-        profilePicture:
-          base64String,
+        profilePicture: imageUrl,
 
         user: {
           ...formData.user,
 
-          profilePicture:
-            base64String,
+          profilePicture: imageUrl,
         },
       });
-    };
-
-    reader.readAsDataURL(file);
+    } catch (error) {
+      alert("Lỗi upload ảnh: " + error.message);
+      setImagePreview(null);
+    }
   };
 
   const handleSubmit = async (e) => {

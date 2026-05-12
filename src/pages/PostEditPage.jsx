@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../services/api';
+import { uploadToCloudinary, validateImage } from '../services/cloudinaryUtils';
 
 const PostEditPage = () => {
   const navigate = useNavigate();
@@ -38,7 +39,12 @@ const PostEditPage = () => {
         });
 
         if (post.imageUrl) {
-          setPreviewImage(`/uploads/${post.imageUrl}`);
+          // Check if it's already a full URL or just a filename
+          if (post.imageUrl.startsWith('http')) {
+            setPreviewImage(post.imageUrl);
+          } else {
+            setPreviewImage(`/uploads/${post.imageUrl}`);
+          }
         }
       } catch (error) {
         console.error('Error fetching post:', error);
@@ -72,13 +78,10 @@ const PostEditPage = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      alert('Vui lòng chọn file hình ảnh');
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Kích thước file không được vượt quá 5MB');
+    // Validate image
+    const validation = validateImage(file);
+    if (!validation.valid) {
+      alert("Lỗi: " + validation.error);
       return;
     }
 
@@ -93,22 +96,16 @@ const PostEditPage = () => {
     setUploading(true);
 
     try {
-      const formDataFile = new FormData();
-      formDataFile.append('file', file);
-
-      const response = await api.post('/posts/upload', formDataFile, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      // Upload to Cloudinary
+      const imageUrl = await uploadToCloudinary(file);
 
       setFormData(prev => ({
         ...prev,
-        imageUrl: response.data.filename || response.data
+        imageUrl: imageUrl
       }));
     } catch (error) {
       console.error('Error uploading file:', error);
-      alert('Lỗi upload hình ảnh: ' + (error.response?.data || error.message));
+      alert('Lỗi upload hình ảnh: ' + error.message);
       setPreviewImage(null);
     } finally {
       setUploading(false);

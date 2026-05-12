@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { doctorAPI } from "../services/api";
+import { uploadToCloudinary, validateImage } from "../services/cloudinaryUtils";
 
 export default function DoctorCreatePage() {
   const navigate = useNavigate();
@@ -44,30 +45,40 @@ export default function DoctorCreatePage() {
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
 
-    if (file) {
-      const reader = new FileReader();
+    if (!file) return;
 
-      reader.onloadend = () => {
-        const base64String =
-          reader.result.split(",")[1];
+    // Validate image
+    const validation = validateImage(file);
+    if (!validation.valid) {
+      alert("Lỗi: " + validation.error);
+      return;
+    }
 
-        setImagePreview(reader.result);
+    // Show preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
 
-        setFormData({
-          ...formData,
-          profilePicture: base64String,
+    try {
+      // Upload to Cloudinary
+      const imageUrl = await uploadToCloudinary(file);
 
-          user: {
-            ...formData.user,
-            profilePicture: base64String,
-          },
-        });
-      };
-
-      reader.readAsDataURL(file);
+      setFormData({
+        ...formData,
+        profilePicture: imageUrl,
+        user: {
+          ...formData.user,
+          profilePicture: imageUrl,
+        },
+      });
+    } catch (error) {
+      alert("Lỗi upload ảnh: " + error.message);
+      setImagePreview(null);
     }
   };
 

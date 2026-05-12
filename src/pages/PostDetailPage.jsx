@@ -5,7 +5,7 @@ import api, { postAPI } from '../services/api';
 const PostDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [post, setPost] = useState(null);
   const [recentPosts, setRecentPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -73,13 +73,13 @@ const PostDetailPage = () => {
   const fetchData = async () => {
     setLoading(true);
     setError('');
-    
+
     try {
       if (id) {
         // Xem chi tiết bài viết cụ thể
         const response = await postAPI.getById(id);
         setPost(response.data);
-        
+
         // Lấy thêm các bài viết gần đây (loại trừ bài hiện tại)
         const recentRes = await postAPI.getAllPublished();
         const currentId = parseInt(id, 10);
@@ -95,7 +95,7 @@ const PostDetailPage = () => {
         // Xem bài viết nổi bật mới nhất (từ navigation)
         const activeRes = await postAPI.getAllActive();
         const publishedRes = await postAPI.getAllPublished();
-        
+
         const allPostsMap = new Map();
         [...(activeRes.data || []), ...(publishedRes.data || [])].forEach((post) => {
           if (!allPostsMap.has(post.id)) {
@@ -104,10 +104,10 @@ const PostDetailPage = () => {
         });
         const allPosts = Array.from(allPostsMap.values());
         // Lấy bài mới nhất
-        const latestPost = allPosts.sort((a, b) => 
+        const latestPost = allPosts.sort((a, b) =>
           new Date(b.createdAt) - new Date(a.createdAt)
         )[0];
-        
+
         if (latestPost) {
           setPost(latestPost);
           // Lấy các bài khác (loại trừ bài đang hiển thị)
@@ -190,7 +190,7 @@ const PostDetailPage = () => {
   return (
     <div className="min-h-screen bg-yellow-50">
       {/* Hero Banner */}
-      <div 
+      <div
         className="py-16 text-white"
         style={{ backgroundColor: '#2b0202' }}
       >
@@ -219,27 +219,53 @@ const PostDetailPage = () => {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
               {/* Featured Image */}
-              <div className="relative">
+              <div className="relative w-full min-h-[420px] md:min-h-[520px] overflow-hidden flex items-center justify-center bg-black">
                 {post.imageUrl ? (
-                  <img 
-                    src={`/uploads/${post.imageUrl}`} 
-                    alt={post.title}
-                    className="w-full h-[400px] object-cover"
-                    onError={(e) => {
-                      e.target.src = 'https://via.placeholder.com/800x400?text=No+Image';
-                    }}
-                  />
+                  <>
+                    {/* BLUR BACKGROUND */}
+                    <img
+                      src={post.imageUrl}
+                      alt={post.title}
+                      className="absolute inset-0 w-full h-full object-cover scale-110 blur-3xl opacity-40"
+                      onError={(e) => {
+                        e.target.src = "/no-image.png";
+                      }}
+                    />
+                    {/* DARK OVERLAY */}
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background:
+                          "linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0.15))",
+                      }}
+                    />
+
+                    {/* MAIN IMAGE */}
+                    <img
+                      src={post.imageUrl}
+                      alt={post.title}
+                      className=" relative z-10 max-w-full max-h-[520px] object-contain rounded-2xl shadow-2xl"
+                      onError={(e) => {
+                        e.target.src = "/no-image.png";
+                      }}
+                    />
+                  </>
                 ) : (
-                  <div 
-                    className="w-full h-[400px] flex items-center justify-center"
-                    style={{ backgroundColor: '#fcfcfc' }}
+                  <div
+                    className=" w-full h-[420px] flex items-center justify-center text-white/30 text-6xl"
                   >
-                    <span className="text-6xl">🦷</span>
+                    🦷
                   </div>
                 )}
+
+                {/* CATEGORY */}
                 {post.category && (
-                  <div className="absolute top-4 left-4 px-4 py-2 rounded-full text-sm font-semibold text-white"
-                    style={{ backgroundColor: '#D4A843' }}
+                  <div
+                    className="absolute top-5 left-5 z-20 px-4 py-2 rounded-full text-sm font-bold text-white backdrop-blur-md"
+                    style={{
+                      background: "rgba(212,168,67,0.25)",
+                      border: "1px solid rgba(255,255,255,0.15)",
+                    }}
                   >
                     {post.category}
                   </div>
@@ -251,16 +277,16 @@ const PostDetailPage = () => {
                 <h2 className="text-xl font-bold text-gray-800 mb-4">
                   {post.title}
                 </h2>
-                
+
                 <div className="text-gray-600 leading-relaxed space-y-4">
                   {post.description && (
                     <p className="text-lg font-medium text-gray-700 border-l-4 border-teal-600 pl-4">
                       {post.description}
                     </p>
                   )}
-                  
+
                   {post.content ? (
-                    <div 
+                    <div
                       className="prose max-w-none"
                       dangerouslySetInnerHTML={{ __html: post.content }}
                     />
@@ -283,7 +309,7 @@ const PostDetailPage = () => {
 
                 {/* Back Button */}
                 <div className="mt-8 pt-6 border-t">
-                  <button 
+                  <button
                     onClick={() => navigate(-1)}
                     className="flex items-center gap-2 text-teal-600 hover:text-teal-800 transition"
                   >
@@ -301,19 +327,19 @@ const PostDetailPage = () => {
               <h3 className="text-lg font-bold text-gray-800 mb-4 pb-3 border-b">
                 Tin tức khác
               </h3>
-              
+
               <div className="space-y-4">
                 {recentPosts.length > 0 ? (
                   recentPosts.map((p) => (
-                    <Link 
+                    <Link
                       key={p.id}
                       to={`/posts/${p.id}`}
                       className="flex gap-3 group"
                     >
                       <div className="w-20 h-16 rounded-lg overflow-hidden flex-shrink-0">
                         {p.imageUrl ? (
-                          <img 
-                            src={`/uploads/${p.imageUrl}`} 
+                          <img
+                            src={p.imageUrl}
                             alt={p.title}
                             className="w-full h-full object-cover group-hover:scale-110 transition"
                             onError={(e) => {
@@ -342,7 +368,7 @@ const PostDetailPage = () => {
               </div>
 
               {/* View All Link */}
-              <Link 
+              <Link
                 to="/"
                 className="block mt-6 text-center text-sm font-semibold text-teal-600 hover:text-teal-800 transition"
               >

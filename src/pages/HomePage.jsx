@@ -139,7 +139,7 @@ const HomePage = () => {
    }
  }, [servicePage, totalServicePages]);
 
- const serviceCards = isLoading ? (
+const serviceCards = isLoading ? (
    <div className="text-white/50 py-8">Đang tải dịch vụ...</div>
  ) : currentServices.length > 0 ? (
    currentServices.map((service) => (
@@ -148,13 +148,13 @@ const HomePage = () => {
        className="rounded-2xl overflow-hidden flex flex-col bg-white transition hover:-translate-y-1 hover:shadow-xl"
        style={{ boxShadow: "0 4px 18px rgba(0,0,0,0.15)" }}
      >
-       <div
+       {/* <div
          className="w-full h-[180px] overflow-hidden"
          style={{ backgroundColor: "#f5ede6" }}
        >
          {service.imgService ? (
            <img
-             src={`/uploads/${service.imgService}`}
+             src={service.imgService}
              alt={service.name}
              className="w-full h-full object-cover"
              onError={(e) => {
@@ -166,8 +166,81 @@ const HomePage = () => {
              Chưa có ảnh
            </div>
          )}
-       </div>
+       </div> */}
 
+       {/* <div
+          className="relative w-full h-[180px] overflow-hidden"
+          style={{ backgroundColor: "#f5ede6" }}
+        >
+          {service.imgService ? (
+            <>
+              <img
+                src={service.imgService}
+                alt={service.name}
+                className="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-40"
+              />
+              <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
+              <div className="relative z-10 w-full h-full flex items-center justify-center p-3">
+                <img
+                  src={service.imgService}
+                  alt={service.name}
+                  className="max-w-full max-h-full object-contain transition duration-500 group-hover:scale-105 drop-shadow-2xl"
+                  onError={(e) => {
+                    e.target.src = "https://via.placeholder.com/300x200?text=No+Image";
+                  }}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="flex items-center justify-center h-full text-gray-300 text-xs">
+              Chưa có ảnh
+            </div>
+          )}
+        </div> */}
+
+        <div
+          className="relative w-full h-[180px] overflow-hidden"
+          style={{ backgroundColor: "#f5ede6" }}
+        >
+          {service.imgService ? (
+            <>
+              {/* Background blur */}
+              <img
+                src={service.imgService}
+                alt={service.name}
+                className="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-40"
+              />
+
+              {/* Overlay nhẹ */}
+              <div className="absolute inset-0 bg-black/5" />
+
+              {/* Main image */}
+              <div className="relative z-10 w-full h-full flex items-center justify-center p-3">
+                <img
+                  src={service.imgService}
+                  alt={service.name}
+                  className="
+                    max-w-full
+                    max-h-full
+                    object-contain
+                    transition
+                    duration-500
+                    group-hover:scale-105
+                    drop-shadow-2xl
+                  "
+                  onError={(e) => {
+                    e.target.src = "/no-image.png";
+                  }}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="flex items-center justify-center h-full text-gray-300 text-xs">
+              Chưa có ảnh
+            </div>
+          )}
+        </div>
+        
        <div className="px-4 py-4 flex flex-col flex-1">
          <p className="text-[10px] font-bold tracking-widest uppercase text-[#1a0500] mb-1">
            {service.category || "Nha Khoa"}
@@ -457,100 +530,238 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* NEWS */}
-      <div className="py-12 bg-yellow-100">
-        <div className="max-w-[1100px] mx-auto">
-          <h2 className="text-center text-green-700 font-bold mb-8 text-3xl"  style={{color:"#1a0a00", fontFamily:"serif"}}>
-            Tin tức & Khuyến mãi
-          </h2>
+ {/* NEWS */}
+<div className="py-16 bg-[#f5efc7]">
+  <div className="max-w-[1100px] mx-auto px-4">
 
-          {posts.length === 0 && !isLoading ? (
-            <div className="text-center py-8 text-gray-500">
-              {error || "Không có tin tức nào"}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              
-              {/* Bài viết nổi bật */}
-              {posts[0] && (
-                <Link to={`/posts/${posts[0].id}`} className="md:col-span-2 bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition block">
-                  <img
-                    src={
-                      posts[0].imageUrl
-                        ? `/uploads/${posts[0].imageUrl}`
-                        : "https://via.placeholder.com/600x350?text=No+Image"
-                    }
-                    alt={posts[0].title}
-                    className="w-full h-[300px] object-cover hover:scale-105 transition duration-300"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://via.placeholder.com/600x350?text=No+Image";
-                    }}
-                  />
+    {/* TITLE */}
+    <div className="text-center mb-10">
+      <p className="text-[11px] tracking-[0.3em] uppercase text-yellow-700 font-bold mb-3">
+        Dental News
+      </p>
 
-                  <div className="p-6">
-                    <div className="text-green-700 font-bold text-xl mb-2 line-clamp-2">
-                      {posts[0].title}
-                    </div>
+      <h2
+        className="text-4xl md:text-5xl font-black"
+        style={{
+          color: "#1a0a00",
+          fontFamily: "serif",
+        }}
+      >
+        Tin tức & Khuyến mãi
+      </h2>
+    </div>
 
-                    <div className="text-xs text-gray-400 mb-3">
-                      {posts[0].createdAt
-                        ? new Date(posts[0].createdAt).toLocaleDateString()
-                        : ""}
-                    </div>
+    {posts.length === 0 && !isLoading ? (
+      <div className="text-center py-12 text-gray-500">
+        {error || "Không có tin tức nào"}
+      </div>
+    ) : (
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
 
-                    <div className="text-gray-700 text-sm line-clamp-4">
-                      {posts[0].description || posts[0].content || ""}
-                    </div>
-                  </div>
-                </Link>
-              )}
+        {/* FEATURED POST */}
+        {posts[0] && (
+          <Link
+            to={`/posts/${posts[0].id}`}
+            className="
+              group
+              lg:col-span-2
+              relative
+              h-[520px]
+              rounded-[32px]
+              overflow-hidden
+              transition
+              hover:-translate-y-1
+            "
+            style={{
+              boxShadow: "0 18px 45px rgba(0,0,0,0.18)",
+            }}
+          >
 
-              {/* Danh sách bên phải */}
-              <div className="flex flex-col gap-5">
-                {posts.slice(1, 5).map((p) => (
-                  <Link
-                    key={p.id}
-                    to={`/posts/${p.id}`}
-                    className="flex gap-4 bg-white rounded-xl shadow p-3 items-center hover:shadow-md transition"
-                  >
-                    <img
-                      src={
-                        p.imageUrl
-                          ? `/uploads/${p.imageUrl}`
-                          : "https://via.placeholder.com/120x90?text=No+Image"
-                      }
-                      alt={p.title}
-                      className="w-[110px] h-[80px] object-cover rounded-md flex-shrink-0"
-                      onError={(e) => {
-                        e.target.src =
-                          "https://via.placeholder.com/120x90?text=No+Image";
-                      }}
-                    />
+            {/* FULL IMAGE */}
+            <img
+              src={posts[0].imageUrl || "/no-image.png"}
+              alt={posts[0].title}
+              className="
+                absolute
+                inset-0
+                w-full
+                h-full
+                object-cover
+                transition
+                duration-700
+                group-hover:scale-105
+              "
+              onError={(e) => {
+                e.target.src = "/no-image.png";
+              }}
+            />
 
-                    <div className="flex-1">
-                      <div className="text-green-700 font-semibold text-sm line-clamp-2 mb-1">
-                        {p.title}
-                      </div>
+            {/* DARK OVERLAY */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to top, rgba(0,0,0,0.88) 8%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.08) 100%)",
+              }}
+            />
 
-                      <div className="text-xs text-gray-400 mb-1">
-                        {p.createdAt
-                          ? new Date(p.createdAt).toLocaleDateString()
-                          : ""}
-                      </div>
+            {/* CONTENT */}
+            <div className="absolute inset-0 z-10 flex flex-col justify-end p-8 md:p-10">
 
-                      <div className="text-xs text-gray-600 line-clamp-2">
-                        {p.description || ""}
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+              {/* badge */}
+              <div
+                className="
+                  w-fit
+                  px-4
+                  h-9
+                  rounded-full
+                  flex
+                  items-center
+                  text-[11px]
+                  font-black
+                  uppercase
+                  tracking-[0.18em]
+                  mb-5
+                  backdrop-blur-md
+                "
+                style={{
+                  background: "rgba(212,168,67,0.22)",
+                  color: "#fff",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                }}
+              >
+                Tin nổi bật
               </div>
 
+              {/* title */}
+              <h3
+                className="
+                  text-white
+                  font-black
+                  leading-[1.1]
+                  text-3xl
+                  md:text-5xl
+                  max-w-4xl
+                  drop-shadow-2xl
+                "
+                style={{
+                  fontFamily: "serif",
+                }}
+              >
+                {posts[0].title}
+              </h3>
+
+              {/* desc */}
+              <p
+                className="
+                  text-white/85
+                  text-sm
+                  md:text-base
+                  leading-relaxed
+                  mt-5
+                  max-w-3xl
+                  line-clamp-3
+                "
+              >
+                {posts[0].description || posts[0].content || ""}
+              </p>
+
+              {/* footer */}
+              <div className="flex items-center gap-4 mt-7">
+
+                <div className="text-white/60 text-sm">
+                  {posts[0].createdAt
+                    ? new Date(posts[0].createdAt).toLocaleDateString()
+                    : ""}
+                </div>
+
+                <div className="w-1 h-1 rounded-full bg-white/40" />
+
+                <div className="text-yellow-300 text-sm font-semibold">
+                  Xem chi tiết →
+                </div>
+              </div>
             </div>
-          )}
+          </Link>
+        )}
+
+        {/* RIGHT POSTS - GIỮ BỐ CỤC CŨ */}
+        <div className="flex flex-col gap-5">
+
+          {posts.slice(1, 5).map((p) => (
+            <Link
+              key={p.id}
+              to={`/posts/${p.id}`}
+              className="
+                flex
+                gap-4
+                bg-white
+                rounded-2xl
+                shadow-md
+                p-3
+                items-center
+                hover:shadow-xl
+                transition
+                hover:-translate-y-1
+              "
+            >
+
+              {/* IMAGE */}
+              <div className="relative w-[120px] h-[90px] rounded-xl overflow-hidden flex-shrink-0">
+
+                <img
+                  src={p.imageUrl || "/no-image.png"}
+                  alt={p.title}
+                  className="
+                    absolute
+                    inset-0
+                    w-full
+                    h-full
+                    object-cover
+                    transition
+                    duration-500
+                    hover:scale-105
+                  "
+                  onError={(e) => {
+                    e.target.src = "/no-image.png";
+                  }}
+                />
+
+                {/* overlay */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(to top, rgba(0,0,0,0.35), rgba(0,0,0,0.05))",
+                  }}
+                />
+              </div>
+
+              {/* CONTENT */}
+              <div className="flex-1 min-w-0">
+
+                <div className="text-xs text-gray-400 mb-2">
+                  {p.createdAt
+                    ? new Date(p.createdAt).toLocaleDateString()
+                    : ""}
+                </div>
+
+                <div className="text-[#1a0a00] font-black text-sm line-clamp-2 leading-snug mb-2">
+                  {p.title}
+                </div>
+
+                <div className="text-xs text-gray-600 line-clamp-2">
+                  {p.description || ""}
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
+
       </div>
+    )}
+  </div>
+</div>
 
       {/* FOOTER */}
      <div id="dia-chi" className="py-16 px-6" style={{backgroundColor: "#f5ede6"}}>

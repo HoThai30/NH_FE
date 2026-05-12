@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { receptionistAPI } from "../services/api";
+import { uploadToCloudinary, validateImage } from "../services/cloudinaryUtils";
 
 export default function ReceptionistCreatePage() {
   const navigate = useNavigate();
@@ -48,35 +49,46 @@ export default function ReceptionistCreatePage() {
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
 
     if (!file) return;
 
+    // Validate image
+    const validation = validateImage(file);
+    if (!validation.valid) {
+      alert("Lỗi: " + validation.error);
+      return;
+    }
+
+    // Show preview
     const reader = new FileReader();
-
     reader.onloadend = () => {
-      const base64String =
-        reader.result.split(",")[1];
-
       setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+    try {
+      // Upload to Cloudinary
+      const imageUrl = await uploadToCloudinary(file);
 
       setFormData({
         ...formData,
 
         profilePicture:
-          base64String,
+          imageUrl,
 
         user: {
           ...formData.user,
 
           profilePicture:
-            base64String,
+            imageUrl,
         },
       });
-    };
-
-    reader.readAsDataURL(file);
+    } catch (error) {
+      alert("Lỗi upload ảnh: " + error.message);
+      setImagePreview(null);
+    }
   };
 
   const handleSubmit = async (e) => {

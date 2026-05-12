@@ -12,6 +12,11 @@ import {
   receptionistAPI,
 } from "../services/api";
 
+import {
+  uploadToCloudinary,
+  validateImage,
+} from "../services/cloudinaryUtils";
+
 export default function ReceptionistEditPage() {
   const { id } = useParams();
 
@@ -108,14 +113,25 @@ export default function ReceptionistEditPage() {
             data.user
               ?.profilePicture
           ) {
-            setImagePreview(
+            // Check if it's already a URL or needs prefix
+            if (data.user.profilePicture.startsWith('http')) {
+              setImagePreview(
+                data.user.profilePicture
+              );
+            } else if (
               data.user.profilePicture.startsWith(
                 "data:"
               )
-                ? data.user
+            ) {
+              setImagePreview(
+                data.user
                     .profilePicture
-                : `data:image/jpeg;base64,${data.user.profilePicture}`
-            );
+              );
+            } else {
+              setImagePreview(
+                `data:image/jpeg;base64,${data.user.profilePicture}`
+              );
+            }
           }
         } catch (err) {
           console.error(err);
@@ -159,7 +175,7 @@ export default function ReceptionistEditPage() {
     }
   };
 
-  const handleImageChange = (
+  const handleImageChange = async (
     e
   ) => {
     const file =
@@ -167,58 +183,46 @@ export default function ReceptionistEditPage() {
 
     if (!file) return;
 
-    if (
-      !file.type.startsWith(
-        "image/"
-      )
-    ) {
-      alert(
-        "Vui lòng chọn file hình ảnh"
-      );
-
+    // Validate image
+    const validation = validateImage(file);
+    if (!validation.valid) {
+      alert("Lỗi: " + validation.error);
       return;
     }
 
-    if (
-      file.size >
-      5 * 1024 * 1024
-    ) {
-      alert(
-        "Kích thước file không được vượt quá 5MB"
-      );
-
-      return;
-    }
-
+    // Show preview
     const reader =
       new FileReader();
 
     reader.onloadend = () => {
-      const base64String =
-        reader.result.split(
-          ","
-        )[1];
-
       setImagePreview(
         reader.result
       );
+    };
+
+    reader.readAsDataURL(file);
+
+    try {
+      // Upload to Cloudinary
+      const imageUrl = await uploadToCloudinary(file);
 
       setFormData((prev) => ({
         ...prev,
 
         profilePicture:
-          base64String,
+          imageUrl,
 
         user: {
           ...prev.user,
 
           profilePicture:
-            base64String,
+            imageUrl,
         },
       }));
-    };
-
-    reader.readAsDataURL(file);
+    } catch (error) {
+      alert("Lỗi upload ảnh: " + error.message);
+      setImagePreview(null);
+    }
   };
 
   const handleSubmit = async (

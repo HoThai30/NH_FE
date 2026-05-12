@@ -28,21 +28,16 @@ export default function DoctorPage() {
   const [error, setError] =
     useState("");
 
-  const getDoctorAvatar = (
-    doctorData
-  ) => {
-    const base64 =
-      doctorData?.user
-        ?.profilePicture ||
-      doctorData?.profilePicture;
+  const getDoctorAvatar = (doctor) => {
+    const avatar =
+      doctor.user?.profilePicture ||
+      doctor.profilePicture;
 
-    if (!base64) return null;
+    if (!avatar || avatar === "null") {
+      return "/default-avatar.png";
+    }
 
-    return base64.startsWith(
-      "data:"
-    )
-      ? base64
-      : `data:image/jpeg;base64,${base64}`;
+    return avatar;
   };
 
   useEffect(() => {
@@ -263,16 +258,14 @@ export default function DoctorPage() {
                   doctor
                 ) ? (
                   <img
-                    src={getDoctorAvatar(
-                      doctor
-                    )}
-                    alt={
-                      doctor.user
-                        ?.name
-                    }
-                    className="w-full h-full object-cover"
+                    src={getDoctorAvatar(doctor)}
+                    alt={doctor.user?.name || "Doctor"}
+                    className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+                    onError={(e) => {
+                      e.target.src = "/default-avatar.png";
+                    }}
                   />
-                ) : (
+                  ) : (
                   <div className="w-full h-full flex items-center justify-center text-white/30">
                     Không có ảnh
                   </div>

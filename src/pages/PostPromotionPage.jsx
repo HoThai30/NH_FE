@@ -218,27 +218,53 @@ const PostPromotionPage = () => {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
               {/* Featured Image */}
-              <div className="relative">
+                <div className="relative w-full min-h-[420px] md:min-h-[520px] overflow-hidden flex items-center justify-center bg-black">
                 {post.imageUrl ? (
-                  <img 
-                    src={`/uploads/${post.imageUrl}`} 
-                    alt={post.title}
-                    className="w-full h-[400px] object-cover"
-                    onError={(e) => {
-                      e.target.src = 'https://via.placeholder.com/800x400?text=No+Image';
-                    }}
-                  />
+                  <>
+                    {/* BLUR BACKGROUND */}
+                    <img
+                      src={post.imageUrl}
+                      alt={post.title}
+                      className="absolute inset-0 w-full h-full object-cover scale-110 blur-3xl opacity-40"
+                      onError={(e) => {
+                        e.target.src = "/no-image.png";
+                      }}
+                    />
+                    {/* DARK OVERLAY */}
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background:
+                          "linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0.15))",
+                      }}
+                    />
+
+                    {/* MAIN IMAGE */}
+                    <img
+                      src={post.imageUrl}
+                      alt={post.title}
+                      className=" relative z-10 max-w-full max-h-[520px] object-contain rounded-2xl shadow-2xl"
+                      onError={(e) => {
+                        e.target.src = "/no-image.png";
+                      }}
+                    />
+                  </>
                 ) : (
-                  <div 
-                    className="w-full h-[400px] flex items-center justify-center"
-                    style={{ backgroundColor: '#fcfcfc' }}
+                  <div
+                    className=" w-full h-[420px] flex items-center justify-center text-white/30 text-6xl"
                   >
-                    <span className="text-6xl">🦷</span>
+                    🦷
                   </div>
                 )}
+
+                {/* CATEGORY */}
                 {post.category && (
-                  <div className="absolute top-4 left-4 px-4 py-2 rounded-full text-sm font-semibold text-white"
-                    style={{ backgroundColor: '#D4A843' }}
+                  <div
+                    className="absolute top-5 left-5 z-20 px-4 py-2 rounded-full text-sm font-bold text-white backdrop-blur-md"
+                    style={{
+                      background: "rgba(212,168,67,0.25)",
+                      border: "1px solid rgba(255,255,255,0.15)",
+                    }}
                   >
                     {post.category}
                   </div>
@@ -312,7 +338,7 @@ const PostPromotionPage = () => {
                       <div className="w-20 h-16 rounded-lg overflow-hidden flex-shrink-0">
                         {p.imageUrl ? (
                           <img 
-                            src={`/uploads/${p.imageUrl}`} 
+                            src={p.imageUrl} 
                             alt={p.title}
                             className="w-full h-full object-cover group-hover:scale-110 transition"
                             onError={(e) => {

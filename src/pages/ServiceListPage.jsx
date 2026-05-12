@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import { uploadToCloudinary, validateImage } from "../services/cloudinaryUtils";
 
 const ServiceListPage = () => {
   const { user } = useAuth();
@@ -54,18 +55,35 @@ const ServiceListPage = () => {
     }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
 
     if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
-      setError("Vui lòng chọn file ảnh.");
+    // Validate image
+    const validation = validateImage(file);
+    if (!validation.valid) {
+      setError("Lỗi: " + validation.error);
       return;
     }
 
     setSelectedFile(file);
     setPreviewImage(URL.createObjectURL(file));
+
+    try {
+      // Upload to Cloudinary
+      const imageUrl = await uploadToCloudinary(file);
+
+      setForm((prev) => ({
+        ...prev,
+        imgService: imageUrl,
+      }));
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      setError('Lỗi upload ảnh: ' + error.message);
+      setSelectedFile(null);
+      setPreviewImage(null);
+    }
   };
 
   const openCreate = () => {
@@ -96,9 +114,7 @@ const ServiceListPage = () => {
     setSelectedFile(null);
 
     setPreviewImage(
-      service.imgService
-        ? `/uploads/${service.imgService}`
-        : null
+      service.imgService || null
     );
 
     setModalOpen(true);
@@ -126,25 +142,13 @@ const ServiceListPage = () => {
         description: form.description.trim(),
         price: Number(form.price),
         active: form.active,
+        imgService: form.imgService || "",
       };
 
-      const formData = new FormData();
-
-      formData.append(
-        "data",
-        new Blob([JSON.stringify(payload)], {
-          type: "application/json",
-        })
-      );
-
-      if (selectedFile) {
-        formData.append("file", selectedFile);
-      }
-
       if (form.id) {
-        await api.put(`/services/${form.id}`, formData);
+        await api.put(`/services/${form.id}`, payload);
       } else {
-        await api.post("/services", formData);
+        await api.post("/services", payload);
       }
 
       setModalOpen(false);
@@ -366,7 +370,7 @@ const ServiceListPage = () => {
                   
                   {service.imgService ? (
                     <img
-                      src={`/uploads/${service.imgService}`}
+                      src={service.imgService}
                       alt={service.name}
                       className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
                     />
