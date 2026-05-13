@@ -73,7 +73,7 @@ export default function Navigation() {
        <div className="flex items-center gap-3">
           <div className="w-20 h-20 rounded-full overflow-hidden bg-white flex items-center justify-center">
             <img
-              src="public/uploads/logo.jpg"
+              src="/uploads/logo.jpg"
               alt="logo"
               className="w-full h-full object-contain"
             />
@@ -101,7 +101,7 @@ export default function Navigation() {
         <div className="flex items-center gap-3">
           <div className="w-20 h-20 rounded-full overflow-hidden bg-white flex items-center justify-center">
             <img
-              src="public/uploads/logo.jpg"
+              src="/uploads/logo.jpg"
               alt="logo"
               className="w-full h-full object-contain"
             />

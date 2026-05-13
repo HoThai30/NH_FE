@@ -239,7 +239,7 @@ const serviceCards = isLoading ? (
               >
                 <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center overflow-hidden">
                 <img
-                  src="/public/uploads/logo.jpg"
+                  src="/uploads/logo.jpg"
                   alt="logo"
                   className="w-full h-full object-contain"
                 />
