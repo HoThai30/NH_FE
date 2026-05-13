@@ -530,238 +530,171 @@ const serviceCards = isLoading ? (
         </div>
       </div>
 
- {/* NEWS */}
-<div className="py-16 bg-[#f5efc7]">
-  <div className="max-w-[1100px] mx-auto px-4">
+            {/* NEWS */}
+            <div className="py-16 bg-[#f5efc7]">
+              <div className="max-w-[1100px] mx-auto px-4">
 
-    {/* TITLE */}
-    <div className="text-center mb-10">
-      <p className="text-[11px] tracking-[0.3em] uppercase text-yellow-700 font-bold mb-3">
-        Dental News
-      </p>
+                {/* TITLE */}
+                <div className="text-center mb-10">
+                  <p className="text-[11px] tracking-[0.3em] uppercase text-yellow-700 font-bold mb-3">
+                    Dental News
+                  </p>
 
-      <h2
-        className="text-4xl md:text-5xl font-black"
-        style={{
-          color: "#1a0a00",
-          fontFamily: "serif",
-        }}
-      >
-        Tin tức & Khuyến mãi
-      </h2>
-    </div>
-
-    {posts.length === 0 && !isLoading ? (
-      <div className="text-center py-12 text-gray-500">
-        {error || "Không có tin tức nào"}
-      </div>
-    ) : (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
-
-        {/* FEATURED POST */}
-        {posts[0] && (
-          <Link
-            to={`/posts/${posts[0].id}`}
-            className="
-              group
-              lg:col-span-2
-              relative
-              h-[520px]
-              rounded-[32px]
-              overflow-hidden
-              transition
-              hover:-translate-y-1
-            "
-            style={{
-              boxShadow: "0 18px 45px rgba(0,0,0,0.18)",
-            }}
-          >
-
-            {/* FULL IMAGE */}
-            <img
-              src={posts[0].imageUrl || "/no-image.png"}
-              alt={posts[0].title}
-              className="
-                absolute
-                inset-0
-                w-full
-                h-full
-                object-cover
-                transition
-                duration-700
-                group-hover:scale-105
-              "
-              onError={(e) => {
-                e.target.src = "/no-image.png";
-              }}
-            />
-
-            {/* DARK OVERLAY */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(to top, rgba(0,0,0,0.88) 8%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.08) 100%)",
-              }}
-            />
-
-            {/* CONTENT */}
-            <div className="absolute inset-0 z-10 flex flex-col justify-end p-8 md:p-10">
-
-              {/* badge */}
-              <div
-                className="
-                  w-fit
-                  px-4
-                  h-9
-                  rounded-full
-                  flex
-                  items-center
-                  text-[11px]
-                  font-black
-                  uppercase
-                  tracking-[0.18em]
-                  mb-5
-                  backdrop-blur-md
-                "
-                style={{
-                  background: "rgba(212,168,67,0.22)",
-                  color: "#fff",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                }}
-              >
-                Tin nổi bật
-              </div>
-
-              {/* title */}
-              <h3
-                className="
-                  text-white
-                  font-black
-                  leading-[1.1]
-                  text-3xl
-                  md:text-5xl
-                  max-w-4xl
-                  drop-shadow-2xl
-                "
-                style={{
-                  fontFamily: "serif",
-                }}
-              >
-                {posts[0].title}
-              </h3>
-
-              {/* desc */}
-              <p
-                className="
-                  text-white/85
-                  text-sm
-                  md:text-base
-                  leading-relaxed
-                  mt-5
-                  max-w-3xl
-                  line-clamp-3
-                "
-              >
-                {posts[0].description || posts[0].content || ""}
-              </p>
-
-              {/* footer */}
-              <div className="flex items-center gap-4 mt-7">
-
-                <div className="text-white/60 text-sm">
-                  {posts[0].createdAt
-                    ? new Date(posts[0].createdAt).toLocaleDateString()
-                    : ""}
+                  <h2
+                    className="text-4xl md:text-5xl font-black"
+                    style={{
+                      color: "#1a0a00",
+                      fontFamily: "serif",
+                    }}
+                  >
+                    Tin tức & Khuyến mãi
+                  </h2>
                 </div>
 
-                <div className="w-1 h-1 rounded-full bg-white/40" />
+                {posts.length === 0 && !isLoading ? (
+                  <div className="text-center py-12 text-gray-500">
+                    {error || "Không có tin tức nào"}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
 
-                <div className="text-yellow-300 text-sm font-semibold">
-                  Xem chi tiết →
-                </div>
+                    {/* FEATURED POST */}
+                    {posts[0] && (
+                      <Link
+                        to={`/posts/${posts[0].id}`}
+                        className="group lg:col-span-2 relative h-[520px] rounded-[32px] overflow-hidden transition hover:-translate-y-1"
+                        style={{
+                          boxShadow: "0 18px 45px rgba(0,0,0,0.18)",
+                        }}
+                      >
+
+                        {/* FULL IMAGE */}
+                        <img
+                          src={posts[0].imageUrl || "/no-image.png"}
+                          alt={posts[0].title}
+                          className="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                          onError={(e) => {
+                            e.target.src = "/no-image.png";
+                          }}
+                        />
+
+                        {/* DARK OVERLAY */}
+                        <div
+                          className="absolute inset-0"
+                          style={{
+                            background:
+                              "linear-gradient(to top, rgba(0,0,0,0.88) 8%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.08) 100%)",
+                          }}
+                        />
+
+                        {/* CONTENT */}
+                        <div className="absolute inset-0 z-10 flex flex-col justify-end p-8 md:p-10">
+
+                          {/* badge */}
+                          <div
+                            className=" w-fit px-4 h-9 rounded-full flex items-center text-[11px] font-black uppercase tracking-[0.18em] mb-5 backdrop-blur-md"
+                            style={{
+                              background: "rgba(212,168,67,0.22)",
+                              color: "#fff",
+                              border: "1px solid rgba(255,255,255,0.12)",
+                            }}
+                          >
+                            Tin nổi bật
+                          </div>
+
+                          {/* title */}
+                          <h3
+                            className="text-white font-black leading-[1.1] text-3xl md:text-5xl max-w-4xl drop-shadow-2xl"
+                            style={{
+                              fontFamily: "serif",
+                            }}
+                          >
+                            {posts[0].title}
+                          </h3>
+
+                          {/* desc */}
+                          <p
+                            className=" text-white/85 text-sm md:text-base leading-relaxed mt-5 max-w-3xl line-clamp-3"
+                          >
+                            {posts[0].description || posts[0].content || ""}
+                          </p>
+
+                          {/* footer */}
+                          <div className="flex items-center gap-4 mt-7">
+
+                            <div className="text-white/60 text-sm">
+                              {posts[0].createdAt
+                                ? new Date(posts[0].createdAt).toLocaleDateString()
+                                : ""}
+                            </div>
+
+                            <div className="w-1 h-1 rounded-full bg-white/40" />
+
+                            <div className="text-yellow-300 text-sm font-semibold">
+                              Xem chi tiết →
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    )}
+
+                    {/* RIGHT POSTS - GIỮ BỐ CỤC CŨ */}
+                    <div className="flex flex-col gap-5">
+
+                      {posts.slice(1, 5).map((p) => (
+                        <Link
+                          key={p.id}
+                          to={`/posts/${p.id}`}
+                          className="flex gap-4 bg-white rounded-2xl shadow-md p-3 items-center hover:shadow-xl transition hover:-translate-y-1"
+                        >
+
+                          {/* IMAGE */}
+                          <div className="relative w-[120px] h-[90px] rounded-xl overflow-hidden flex-shrink-0">
+
+                            <img
+                              src={p.imageUrl || "/no-image.png"}
+                              alt={p.title}
+                              className=" absolute inset-0 w-full h-full object-cover transition duration-500 hover:scale-105"
+                              onError={(e) => {
+                                e.target.src = "/no-image.png";
+                              }}
+                            />
+
+                            {/* overlay */}
+                            <div
+                              className="absolute inset-0"
+                              style={{
+                                background:
+                                  "linear-gradient(to top, rgba(0,0,0,0.35), rgba(0,0,0,0.05))",
+                              }}
+                            />
+                          </div>
+
+                          {/* CONTENT */}
+                          <div className="flex-1 min-w-0">
+
+                            <div className="text-xs text-gray-400 mb-2">
+                              {p.createdAt
+                                ? new Date(p.createdAt).toLocaleDateString()
+                                : ""}
+                            </div>
+
+                            <div className="text-[#1a0a00] font-black text-sm line-clamp-2 leading-snug mb-2">
+                              {p.title}
+                            </div>
+
+                            <div className="text-xs text-gray-600 line-clamp-2">
+                              {p.description || ""}
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+
+                  </div>
+                )}
               </div>
             </div>
-          </Link>
-        )}
-
-        {/* RIGHT POSTS - GIỮ BỐ CỤC CŨ */}
-        <div className="flex flex-col gap-5">
-
-          {posts.slice(1, 5).map((p) => (
-            <Link
-              key={p.id}
-              to={`/posts/${p.id}`}
-              className="
-                flex
-                gap-4
-                bg-white
-                rounded-2xl
-                shadow-md
-                p-3
-                items-center
-                hover:shadow-xl
-                transition
-                hover:-translate-y-1
-              "
-            >
-
-              {/* IMAGE */}
-              <div className="relative w-[120px] h-[90px] rounded-xl overflow-hidden flex-shrink-0">
-
-                <img
-                  src={p.imageUrl || "/no-image.png"}
-                  alt={p.title}
-                  className="
-                    absolute
-                    inset-0
-                    w-full
-                    h-full
-                    object-cover
-                    transition
-                    duration-500
-                    hover:scale-105
-                  "
-                  onError={(e) => {
-                    e.target.src = "/no-image.png";
-                  }}
-                />
-
-                {/* overlay */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(to top, rgba(0,0,0,0.35), rgba(0,0,0,0.05))",
-                  }}
-                />
-              </div>
-
-              {/* CONTENT */}
-              <div className="flex-1 min-w-0">
-
-                <div className="text-xs text-gray-400 mb-2">
-                  {p.createdAt
-                    ? new Date(p.createdAt).toLocaleDateString()
-                    : ""}
-                </div>
-
-                <div className="text-[#1a0a00] font-black text-sm line-clamp-2 leading-snug mb-2">
-                  {p.title}
-                </div>
-
-                <div className="text-xs text-gray-600 line-clamp-2">
-                  {p.description || ""}
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-      </div>
-    )}
-  </div>
-</div>
 
       {/* FOOTER */}
      <div id="dia-chi" className="py-16 px-6" style={{backgroundColor: "#f5ede6"}}>
@@ -783,26 +716,35 @@ const serviceCards = isLoading ? (
               </div>
               <div>
                 <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{color:"#C07A3A"}}>Liên Hệ</p>
-                <p className="text-xl font-black" style={{color:"#D4A843"}}> 000000000000</p>
+                <p className="text-xl font-black" style={{color:"#D4A843"}}> 0775771771</p>
               </div>
             </div>
           </div>
-          {/* buttom */}
-          <div className="flex gap-3 mt-8 flex-wrap">
-            <a href="https://www.google.com/maps/place/125+H%C3%B9ng+V%C6%B0%C6%A1ng,+TT.+%C3%A1i+Ngh%C4%A9a,+%C4%90%E1%BA%A1i+L%E1%BB%99c,+%C4%90%C3%A0+N%E1%BA%B5ng+51000,+Vi%E1%BB%87t+Nam/@15.8821385,108.1176379,17z/data=!3m1!4b1!4m6!3m5!1s0x314203986cb2a2c5:0xa31550fcc6f5e6dd!8m2!3d15.8821385!4d108.1202128!16s%2Fg%2F11t52g_ppm?entry=ttu&g_ep=EgoyMDI2MDQyNy4wIKXMDSoASAFQAw%3D%3D"
-                target ="_blank"
+          {/* bottom */}
+            <div className="flex gap-3 mt-8">
+              <a
+                href="https://www.google.com/maps"
+                target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 px-5 py02.5 rounded-full text-sm font-semibold"
-                style={{backgroundColor:"#D4A843", color:"#1a0000"}}>
-                <span>8</span> Mở Google Maps
-            </a>
-            <a href="tel: 0000000000"
-               className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold border border-white/25 text-white hover:border-white/50 transition"
-            >
-              <span>9</span> Liên hệ ngay
-            </a>
-          </div>
-        </div>
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition hover:scale-[1.02]"
+                style={{
+                  backgroundColor: "#D4A843",
+                  color: "#1a0000",
+                }}
+              >
+                <span className="text-base">📍</span>
+                <span>Mở Google Maps</span>
+              </a>
+
+              <a
+                href="tel:0775771771"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-white/20 text-white hover:border-white/40 hover:bg-white/5 transition"
+              >
+                <span className="text-base">📞</span>
+                <span>Liên hệ ngay</span>
+              </a>
+            </div>
+            </div>
            {/* right */}
            <div className="flex-1 rounded-3xl overflow-hidden" style={{height: 500}}>
            <img src={map} alt="Nha Khoa Á Châu II" 
