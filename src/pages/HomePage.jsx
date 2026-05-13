@@ -662,7 +662,7 @@ const serviceCards = isLoading ? (
           {/* bottom */}
             <div className="flex gap-3 mt-8">
               <a
-                href="https://www.google.com/maps"
+                href="https://www.bing.com/maps/search?v=2&pc=FACEBK&mid=8100&mkt=en-US&fbclid=IwY2xjawRw_illeHRuA2FlbQIxMABicmlkETFITXpTRHc5azUxbnB1U1o4c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHqj7LtAwGbeBB2A0vjbt7aPZX6LBUa6HlLGYPZNNg6JW0FgpKoUplUPige8o_aem_cFX7H9-JBwTHp3IIOTcekQ&FORM=FBKPL1&q=125+H%C3%B9ng+V%C6%B0%C6%A1ng++%C3%81i+Ngh%C4%A9a+%C4%90%E1%BA%A1i+L%E1%BB%99c+Qu%E1%BA%A3ng+Nam%2C+Quang+Nam%2C+Vietnam%2C+51000&cp=15.882057%7E108.120305&lvl=16&style=r"
                 target="_blank"
                 rel="noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition hover:scale-[1.02]"
