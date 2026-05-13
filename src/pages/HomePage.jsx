@@ -36,16 +36,10 @@ const HomePage = () => {
           postAPI.getAllActive(),
           dentalServiceAPI.getAll(),
         ]);
-        console.log("Fetched posts:", p.data?.length || 0);
-        console.log("Fetched active posts:", a.data?.length || 0);
-        console.log("Fetched services:", s.data?.length || 0, s.data);
-        console.log("posts:", p.data);
         setPosts(p.data || []);
         setActivePosts(a.data || []);
         setServices(s.data || []);
       } catch (error) {
-        console.error("Fetch error:", error);
-        console.error("Error details:", error.response?.data || error.message);
         setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
       } finally {
         setIsLoading(false);
@@ -110,22 +104,25 @@ const HomePage = () => {
     }).format(value);
   };
 
- const hero = "/public/uploads/anhhero1.jpg";
- const about = "/public/uploads/anhbia.jpg"
+ const hero = "/uploads/anhhero1.jpg";
+ const about = "/uploads/anhbia.jpg"
 
  const [galleryPage, setGalleryPage] = useState(0);
  const galleryImages = [
-  "/public/uploads/khachhang3.jpg",
-  "/public/uploads/khachhang2.jpg",
-  "/public/uploads/khachhang1.jpg",
-  "/public/uploads/khachhang4.jpg",
-  "/public/uploads/khachhang5.jpg",
-  "/public/uploads/khachhang6.jpg",
-  "/public/uploads/khachhang7.jpg",
-  "/public/uploads/khachhang8.jpg",
-  "/public/uploads/khachhang9.jpg",
-  "/public/uploads/khachhang10.jpg",
+  "/uploads/khachhang3.jpg",
+  "/uploads/khachhang2.jpg",
+  "/uploads/khachhang1.jpg",
+  "/uploads/khachhang4.jpg",
+  "/uploads/khachhang5.jpg",
+  "/uploads/khachhang6.jpg",
+  "/uploads/khachhang7.jpg",
+  "/uploads/khachhang8.jpg",
+  "/uploads/khachhang9.jpg",
+  "/uploads/khachhang10.jpg",
  ]
+
+const map = "/uploads/map.jpg";
+
  const totalGalleryPages = Math.ceil(galleryImages.length / 5);
  const currentGallery = galleryImages.slice(galleryPage * 5, galleryPage * 5+5);
 
@@ -148,57 +145,7 @@ const serviceCards = isLoading ? (
        className="rounded-2xl overflow-hidden flex flex-col bg-white transition hover:-translate-y-1 hover:shadow-xl"
        style={{ boxShadow: "0 4px 18px rgba(0,0,0,0.15)" }}
      >
-       {/* <div
-         className="w-full h-[180px] overflow-hidden"
-         style={{ backgroundColor: "#f5ede6" }}
-       >
-         {service.imgService ? (
-           <img
-             src={service.imgService}
-             alt={service.name}
-             className="w-full h-full object-cover"
-             onError={(e) => {
-               e.target.src = "https://via.placeholder.com/300x200?text=No+Image";
-             }}
-           />
-         ) : (
-           <div className="flex items-center justify-center h-full text-gray-300 text-xs">
-             Chưa có ảnh
-           </div>
-         )}
-       </div> */}
-
-       {/* <div
-          className="relative w-full h-[180px] overflow-hidden"
-          style={{ backgroundColor: "#f5ede6" }}
-        >
-          {service.imgService ? (
-            <>
-              <img
-                src={service.imgService}
-                alt={service.name}
-                className="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-40"
-              />
-              <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
-              <div className="relative z-10 w-full h-full flex items-center justify-center p-3">
-                <img
-                  src={service.imgService}
-                  alt={service.name}
-                  className="max-w-full max-h-full object-contain transition duration-500 group-hover:scale-105 drop-shadow-2xl"
-                  onError={(e) => {
-                    e.target.src = "https://via.placeholder.com/300x200?text=No+Image";
-                  }}
-                />
-              </div>
-            </>
-          ) : (
-            <div className="flex items-center justify-center h-full text-gray-300 text-xs">
-              Chưa có ảnh
-            </div>
-          )}
-        </div> */}
-
-        <div
+       <div
           className="relative w-full h-[180px] overflow-hidden"
           style={{ backgroundColor: "#f5ede6" }}
         >
@@ -219,15 +166,7 @@ const serviceCards = isLoading ? (
                 <img
                   src={service.imgService}
                   alt={service.name}
-                  className="
-                    max-w-full
-                    max-h-full
-                    object-contain
-                    transition
-                    duration-500
-                    group-hover:scale-105
-                    drop-shadow-2xl
-                  "
+                  className=" max-w-full max-h-full object-contain transition duration-500 group-hover:scale-105 drop-shadow-2xl"
                   onError={(e) => {
                     e.target.src = "/no-image.png";
                   }}
@@ -266,7 +205,7 @@ const serviceCards = isLoading ? (
    </div>
  );
 
- const map = "/public/uploads/map.jpg";
+
 
   return (
     <div className="bg-white text-sm">
