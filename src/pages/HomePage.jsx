@@ -696,7 +696,7 @@ const serviceCards = isLoading ? (
       {/* bottom */}
       <div className="maw-w-[1100px] mx-auto mt-8 pt-6 border-t flex items-center justify-between text-xs" style={{borderColor:"#d6c4b0", color:"#8B5E3C"}}>
         <span>@2026 Nha Khoa Quốc Tế Á Châu II. All rights reserved.</span>
-        <span>Thiết kế bởi Nha Khoa Á Châu II</span>
+        <span>Thiết kế bởi hồ phước thái</span>
       </div>
      </div>
 
