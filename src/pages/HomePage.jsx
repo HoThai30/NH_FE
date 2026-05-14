@@ -104,7 +104,7 @@ const HomePage = () => {
     }).format(value);
   };
 
- const hero = "/public/uploads/anhhero1.jpg";
+ const hero = "/uploads/anhhero1.jpg";
  const about = "/uploads/anhbia.jpg"
 
  const [galleryPage, setGalleryPage] = useState(0);
