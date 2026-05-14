@@ -284,78 +284,271 @@ const serviceCards = isLoading ? (
             </p>
           </div>
           <div className="flex-1 w-full sm:w-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl overflow-hidden shadow-lg border border-white/20">
+      <div
+        className="relative rounded-[28px] overflow-hidden border border-white/15 bg-white/10 backdrop-blur-xl shadow-2xl"
+      >
+
+    {/* IMAGE */}
+    <div className="relative">
+
+      <img
+        src={hero}
+        alt="Nha khoa Á Châu"
+        className="w-full h-[260px] sm:h-[360px] md:h-[500px] object-cover"
+        style={{ objectPosition: "40% 60%" }}
+      />
+
+      {/* overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+
+      {/* FLOATING MINI TAG */}
+      <div
+        className="absolute top-3 left-3 sm:top-5 sm:left-5 z-20 bg-primaryDark backdrop-blur-xl border border-white/15 rounded-full px-3 sm:px-5 py-1.5 sm:py-2 shadow-xl"
+      >
+        <div className="flex items-center gap-2">
+
+          {/* dot */}
+          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
+
+          <p
+            className="text-[9px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] font-bold text-yellow-400 whitespace-nowrap"
+          >
+            Nha khoa chuẩn<br/> quốc tế  
+          </p>
+        </div>
+      </div>
+
+          {/* FLOATING MINI TAGS */}
+          <div
+            className="absolute left-3 right-3 bottom-3 sm:left-6 sm:right-6 sm:bottom-6 flex gap-2 sm:gap-3"
+          >
+            {/* TAG 1 */}
+            <div
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl px-3 py-2 text-white shadow-xl"
+            >
+              <span className="text-sm sm:text-base">🦷</span>
+
+              <span className="text-[10px] sm:text-xs font-semibold whitespace-nowrap">
+                Công nghệ hiện đại
+              </span>
+            </div>
+
+            {/* TAG 2 */}
+            <div
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl px-3 py-2 text-white shadow-xl"
+            >
+              <span className="text-sm sm:text-base"> ✨</span>
+
+              <span className="text-[10px] sm:text-xs font-semibold whitespace-nowrap">
+                Chuẩn quốc tế
+              </span>
+            </div>
+
+            {/* TAG 3 */}
+            <div
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl px-3 py-2 text-white shadow-xl"
+            >
+              <span className="text-sm sm:text-base">👨‍⚕️</span>
+
+              <span className="text-[10px] sm:text-xs font-semibold whitespace-nowrap">
+                Bác sĩ tận tâm
+              </span>
+            </div>
+          </div>
+          </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+  {/* ABOUT */}
+        <div className="relative overflow-hidden py-10 sm:py-14 lg:py-18 bg-gradient-to-b from-yellow-50 via-yellow-100 to-yellow-50">
+
+          {/* BACKGROUND GLOW */}
+          <div className="absolute top-0 left-0 w-60 h-60 bg-yellow-300/20 blur-3xl rounded-full" />
+          <div className="absolute bottom-0 right-0 w-72 h-72 bg-amber-400/10 blur-3xl rounded-full" />
+
+          <div className="relative max-w-[1100px] mx-auto px-4 sm:px-6">
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+              {/* IMAGE */}
+              <div className="relative group">
+
+                {/* glow */}
+                <div className="absolute inset-0 bg-yellow-400/20 blur-3xl rounded-[28px] group-hover:scale-105 transition duration-700" />
+
+                {/* image */}
+                <div className="relative overflow-hidden rounded-[24px] border-4 border-white shadow-2xl">
+
                   <img
-                    src={hero}
-                    className="w-full h-[200px] sm:h-[300px] md:h-[400px] object-cover"
-                    style={{ objectPosition: "40% 60%" }}
+                    src={about}
+                    alt="Nha khoa Á Châu"
+                    className="h-[240px] sm:h-[340px] lg:h-[430px] w-full object-cover group-hover:scale-105 transition duration-700"
                   />
 
-                  {/* 3 ô thông tin */}
-                  <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4 p-3 sm:p-4">
-                    
-                    <div className="bg-white rounded-lg p-2 sm:p-3 lg:p-4 text-center backdrop-blur-sm">
-                      <p className="text-base sm:text-lg lg:text-xl text-red-800 font-bold">10+</p>
-                      <p className="text-[10px] sm:text-xs text-red-800">Năm kinh nghiệm</p>
-                    </div>
+                  {/* overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
 
-                    <div className="bg-white rounded-lg p-2 sm:p-3 lg:p-4 text-center backdrop-blur-sm">
-                      <p className="text-base sm:text-lg lg:text-xl text-red-800 font-bold">5000+</p>
-                      <p className="text-[10px] sm:text-xs text-red-800">Khách hàng</p>
-                    </div>
+                  {/* floating badge */}
+                  <div
+                    className=" absolute bottom-4 left-4 bg-white/90 backdrop-blur-md rounded-2xl px-4 py-2.5 shadow-xl"
+                  >
+                    <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-widest">
+                      Khách hàng hài lòng
+                    </p>
 
-                    <div className="bg-yellow-300 rounded-lg p-2 sm:p-3 lg:p-4 text-center backdrop-blur-sm">
-                      <p className="text-base sm:text-lg lg:text-xl text-red-800 font-bold">100%</p>
-                      <p className="text-[10px] sm:text-xs text-red-800">Hài lòng</p>
-                    </div>
+                    <div className="flex items-center gap-2 mt-1">
+                      <h3 className="text-xl font-black text-primaryDark">
+                        5000+
+                      </h3>
 
+                      <span className="text-yellow-500 text-sm">
+                        ⭐⭐⭐⭐⭐
+                      </span>
+                    </div>
                   </div>
+                </div>
+              </div>
+
+              {/* CONTENT */}
+              <div>
+
+                {/* BADGE */}
+                <div
+                  className="inline-flex items-center gap-2 bg-yellow-200 text-primaryDark px-4 py-2 rounded-full text-[11px] sm:text-xs font-bold shadow-sm mb-4"
+                >
+                  ✨ Hơn 10 năm chăm sóc nụ cười Việt
+                </div>
+
+                {/* DESCRIPTION */}
+                <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+                  Chúng tôi mang đến trải nghiệm nha khoa hiện đại,
+                  an toàn và cá nhân hóa với đội ngũ bác sĩ chuyên môn cao
+                  cùng công nghệ điều trị tiên tiến.
+                </p>
+
+                {/* FEATURES */}
+                <div className="space-y-4 mt-6">
+
+                  <div className="flex items-start gap-3">
+                    <div
+                      className=" w-10 h-10 rounded-xl bg-yellow-100 flex items-center justify-center text-base flex-shrink-0"
+                    >
+                      👨‍⚕️
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-primaryDark text-sm">
+                        Bác sĩ giàu kinh nghiệm
+                      </h4>
+
+                      <p className="text-gray-500 text-sm mt-1">
+                        Điều trị tận tâm theo từng tình trạng riêng biệt.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div
+                      className="w-10 h-10 rounded-xl bg-yellow-100 flex items-center justify-center text-bas flex-shrink-0"
+                    >
+                      🦷
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-primaryDark text-sm">
+                        Công nghệ hiện đại
+                      </h4>
+
+                      <p className="text-gray-500 text-sm mt-1">
+                        Thiết bị tiên tiến giúp điều trị nhẹ nhàng hơn.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div
+                      className=" w-10 h-10 rounded-xl bg-yellow-100 flex items-center justify-center text-base flex-shrink-0"
+                    >
+                      💎
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-primaryDark text-sm">
+                        Dịch vụ chuẩn quốc tế
+                      </h4>
+
+                      <p className="text-gray-500 text-sm mt-1">
+                        Không gian sang trọng và quy trình chuyên nghiệp.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* REVIEW */}
+                <div
+                  className=" mt-6 bg-white rounded-2xl p-4 shadow-lg border border-yellow-100"
+                >
+                  <p className="text-gray-600 italic leading-relaxed text-sm">
+                    “Bác sĩ tư vấn rất tận tình, không gian sạch đẹp và dịch vụ cực kỳ chuyên nghiệp.”
+                  </p>
+
+                  <div className="flex items-center justify-between mt-4">
+
+                     <div className="flex items-center gap-3 mt-3">
+
+                      <div
+                        className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-yellow-300 flex items-center justify-center font-bold text-[#2b0202] text-sm  sm:text-base "
+                      >
+                        M
+                      </div>
+
+                      <div>
+                        <p className="font-bold text-xs sm:text-sm text-[#2b0202]">
+                          Minh Anh
+                        </p>
+
+                        <p className="text-[10px] sm:text-[11px] text-gray-500">
+                          Khách hàng Implant
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-yellow-500 text-sm">
+                      ⭐⭐⭐⭐⭐
+                    </div>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <div className="flex flex-wrap gap-3 mt-6">
+
+                  <button
+                    onClick={() => setModalOpen(true)}
+                    className=" px-5 sm:px-7 py-3 rounded-2xl text-sm font-bold shadow-xl transition hover:scale-105 text-black"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #D4A843 0%, #f0c96a 100%)",
+                    }}
+                  >
+                    Đặt lịch ngay
+                  </button>
+
+                  <button
+                  onClick={() => {
+                    document.getElementById("dich-vu")?.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="px-6 sm:px-8 py-3 sm:py-4 rounded-2xl border border-primaryDark/20 text-primaryDark font-semibol hover:bg-white transition"
+                >
+                  Xem dịch vụ
+                </button>
+                </div>
               </div>
             </div>
-        </div>
-      </div>
-
-     {/* ABOUT */}
-      <div className="py-8 sm:py-12 md:py-16 bg-yellow-100">
-        <div className="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-10 items-center px-4 sm:px-6 md:px-8">
-          
-          {/* IMAGE */}
-          <div className="overflow-hidden rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
-            <img
-              src={about}
-              alt="Nha khoa Á Châu"
-              className="h-[250px] sm:h-[300px] md:h-[320px] w-full object-cover transform hover:scale-105 transition duration-500"
-            />
           </div>
-
-          {/* CONTENT */}
-          <div className="bg-yellow-50 p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl shadow-md">
-            <h2 className="text-primaryDark font-bold mb-3 sm:mb-4 text-lg sm:text-xl">
-              NHA KHOA QUỐC TẾ Á CHÂU II
-            </h2>
-
-            <p className="text-gray-700 leading-relaxed text-xs sm:text-sm md:text-base">
-                Nha khoa Quốc tế Á Châu là địa chỉ uy tín trong lĩnh vực chăm sóc và điều trị
-                răng miệng, được nhiều khách hàng tin tưởng lựa chọn. Với trang thiết bị hiện
-                đại cùng đội ngũ bác sĩ giàu kinh nghiệm, chúng tôi mang đến các giải pháp
-                điều trị an toàn, hiệu quả và phù hợp với từng khách hàng.
-
-                Mỗi khách hàng đều được thăm khám kỹ lưỡng và tư vấn cá nhân hóa, từ các dịch
-                vụ cơ bản đến chuyên sâu như chỉnh nha, implant hay phục hình thẩm mỹ. Chúng
-                tôi cam kết mang lại nụ cười tự tin, khỏe mạnh và trải nghiệm thoải mái trong
-                suốt quá trình điều trị.
-              </p>
-            <button
-              onClick={() => setModalOpen(true)}
-              className="mt-4 sm:mt-6 bg-primaryDark text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl hover:bg-green-800 transition text-sm sm:text-base"
-            >
-              Đặt lịch khám
-            </button>
-          </div>
-
         </div>
-      </div>
-
        {/* Hinh anh khach hang*/}
       <div id="gallery" className="py-16 px-6" style={{backgroundColor: "#f5ede6"}}>
           <div className="max-w-[1100px] mx-auto">
@@ -635,134 +828,243 @@ const serviceCards = isLoading ? (
               </div>
             </div>
 
-      {/* FOOTER */}
-     <div id="dia-chi" className="py-8 sm:py-12 md:py-16 px-4 sm:px-6" style={{backgroundColor: "#f5ede6"}}>
-      <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row gap-4 sm:gap-5 items-stretch">
-        {/* left */}
-        <div className="flex flex-col justify-between rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 w-full md:w-[380px] flex-shrink-0" style={{backgroundColor: "#2D0A0A", minHeight: "300px", mdHeight: "500px"}}>
-          <div>
-            <p className="text-[10px] sm:text-xs font-bold tracking-[0.15em] sm:tracking-[0.18em] uppercase mb-2 sm:mb-3" style={{color: "#C07A3A"}}> Thông tin &amp; Bản Đồ</p>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mb-6 sm:mb-8 leading-tight" style={{fontFamily: "serif"}}> Đến khám <br/> hôm nay. </h2>
+                {/* FOOTER */}
+                <div id="dia-chi" className="py-8 sm:py-12 md:py-16 px-4 sm:px-6" style={{backgroundColor: "#f5ede6"}}>
+                  <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row gap-4 sm:gap-5 items-stretch">
+                    {/* left */}
+                    <div className="flex flex-col justify-between rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 w-full md:w-[380px] flex-shrink-0" style={{backgroundColor: "#2D0A0A", minHeight: "300px", mdHeight: "500px"}}>
+                      <div>
+                        <p className="text-[10px] sm:text-xs font-bold tracking-[0.15em] sm:tracking-[0.18em] uppercase mb-2 sm:mb-3" style={{color: "#C07A3A"}}> Thông tin &amp; Bản Đồ</p>
+                        <h2 className="text-2xl sm:text-3xl font-black text-white mb-6 sm:mb-8 leading-tight" style={{fontFamily: "serif"}}> Đến khám <br/> hôm nay. </h2>
 
-            <div className="flex flex-col gap-4 sm:gap-5">
-              <div>
-                <p className="text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-1"style={{color: "#C07A3A"}}> Địa Chỉ</p>
-                <p className="text-white/80 text-xs sm:text-sm leading-relaxed">125 Đường Hùng Vương, Ái Nghĩa <br/> Đại Lộc, TP. Đà Nẵng</p>
+                        <div className="flex flex-col gap-4 sm:gap-5">
+                          <div>
+                            <p className="text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-1"style={{color: "#C07A3A"}}> Địa Chỉ</p>
+                            <p className="text-white/80 text-xs sm:text-sm leading-relaxed">125 Đường Hùng Vương, Ái Nghĩa <br/> Đại Lộc, TP. Đà Nẵng</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-1" style={{color:"#C07A3A"}}>Giờ Mở Cửa</p>
+                            <p className="text-white/80 text-xs sm:text-sm">08:00 - 20:00, Thứ hai - Chủ nhật</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-1" style={{color:"#C07A3A"}}>Liên Hệ</p>
+                            <p className="text-lg sm:text-xl font-black" style={{color:"#D4A843"}}> 0775771771</p>
+                          </div>
+                        </div>
+                      </div>
+                      {/* bottom */}
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-6 sm:mt-8">
+                          <a
+                            href="https://www.bing.com/maps/search?v=2&pc=FACEBK&mid=8100&mkt=en-US&fbclid=IwY2xjawRw_illeHRuA2FlbQIxMABicmlkETFITXpTRHc5azUxbnB1U1o4c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHqj7LtAwGbeBB2A0vjbt7aPZX6LBUa6HlLGYPZNNg6JW0FgpKoUplUPige8o_aem_cFX7H9-JBwTHp3IIOTcekQ&FORM=FBKPL1&q=125+H%C3%B9ng+V%C6%B0%C6%A1ng++%C3%81i+Ngh%C4%A9a+%C4%90%E1%BA%A1i+L%E1%BB%99c+Qu%E1%BA%A3ng+Nam%2C+Quang+Nam%2C+Vietnam%2C+51000&cp=15.882057%7E108.120305&lvl=16&style=r"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex-1 flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition hover:scale-[1.02]"
+                            style={{
+                              backgroundColor: "#D4A843",
+                              color: "#1a0000",
+                            }}
+                          >
+                            <span className="text-sm sm:text-base">📍</span>
+                            <span>Mở Maps</span>
+                          </a>
+
+                          <a
+                            href="tel:0775771771"
+                            className="flex-1 flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold border border-white/20 text-white hover:border-white/40 hover:bg-white/5 transition"
+                          >
+                            <span className="text-sm sm:text-base">📞</span>
+                            <span>Liên hệ</span>
+                          </a>
+                        </div>
+                        </div>
+                      {/* right */}
+                      <div className="flex-1 rounded-2xl sm:rounded-3xl overflow-hidden" style={{height: "300px", mdHeight: "500px"}}>
+                      <img src={map} alt="Nha Khoa Á Châu II" 
+                          className="w-full h-full object-cover"
+                          style={{display:"block"}}
+                      />
+                      </div>
+                  </div>
+
+                  {/* bottom */}
+                  <div className="max-w-[1100px] mx-auto mt-6 sm:mt-8 pt-4 sm:pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] sm:text-xs" style={{borderColor:"#d6c4b0", color:"#8B5E3C"}}>
+                    <span>@2026 Nha Khoa Quốc Tế Á Châu II. All rights reserved.</span>
+                    <span className="hidden sm:inline">Thiết kế bởi hồ phước thái</span>
+                  </div>
+                </div>
+
+                  {/* MODAL */}
+                {modalOpen && (
+              <div className="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+
+                {/* MODAL */}
+                <div className="relative w-full max-w-lg bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden animate-fadeIn">
+
+                  {/* HEADER */}
+                  <div
+                    className="px-5 sm:px-7 py-5 sm:py-6 text-white"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #2b0202 0%, #4a0505 100%)",
+                    }}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+
+                      <div>
+                        <p className="text-yellow-400 text-[11px] sm:text-xs uppercase tracking-[0.2em] font-bold mb-2">
+                          Nha Khoa Quốc Tế
+                        </p>
+
+                        <h2 className="text-xl sm:text-2xl font-black">
+                          Đặt lịch khám
+                        </h2>
+
+                        <p className="text-white/70 text-xs sm:text-sm mt-2">
+                          Vui lòng điền thông tin để được tư vấn nhanh nhất
+                        </p>
+                      </div>
+
+                      {/* CLOSE */}
+                      <button
+                        onClick={() => setModalOpen(false)}
+                        className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition flex items-center justify-center text-white text-lg flex-shrink-0"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* BODY */}
+                  <div className="p-5 sm:p-7 max-h-[85vh] overflow-y-auto">
+
+                    <form
+                      onSubmit={handleBookingSubmit}
+                      className="space-y-5"
+                    >
+
+                      {/* PHONE */}
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Số điện thoại
+                        </label>
+
+                        <input
+                          name="patientPhone"
+                          value={booking.patientPhone}
+                          onChange={handleBookingChange}
+                          placeholder="Nhập số điện thoại"
+                          className="w-full h-12 sm:h-13 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition focus:border-yellow-500 focus:bg-white focus:ring-4 focus:ring-yellow-100"
+                        />
+
+                        {errors.patientPhone && (
+                          <p className="text-red-500 text-xs mt-2">
+                            {errors.patientPhone}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* NAME */}
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Họ và tên
+                        </label>
+
+                        <input
+                          name="patientName"
+                          value={booking.patientName}
+                          onChange={handleBookingChange}
+                          placeholder="Nhập họ và tên"
+                          className="w-full h-12 sm:h-13 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition  focus:border-yellow-500 focus:bg-white focus:ring-4 focus:ring-yellow-100"
+                        />
+
+                        {errors.patientName && (
+                          <p className="text-red-500 text-xs mt-2">
+                            {errors.patientName}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* DATETIME */}
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Ngày giờ khám
+                        </label>
+
+                        <div className="relative">
+
+                          <input
+                            type="datetime-local"
+                            name="appointmentTime"
+                            value={booking.appointmentTime}
+                            onChange={handleBookingChange}
+                            className="w-full min-h-[52px] rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition focus:border-yellow-500 focus:bg-white focus:ring-4 focus:ring-yellow-100
+                              appearance-none
+                              text-gray-700
+
+                              [&::-webkit-calendar-picker-indicator]:opacity-100
+                              [&::-webkit-calendar-picker-indicator]:cursor-pointer
+                              [&::-webkit-calendar-picker-indicator]:block
+                              [&::-webkit-calendar-picker-indicator]:absolute
+                              [&::-webkit-calendar-picker-indicator]:right-4
+                            "
+                          />
+                        </div>
+
+                        <p className="text-[11px] text-gray-400 mt-2">
+                          Chọn ngày và giờ bạn muốn đặt lịch
+                        </p>
+
+                        {errors.appointmentTime && (
+                          <p className="text-red-500 text-xs mt-2">
+                            {errors.appointmentTime}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* REASON */}
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Lý do khám
+                        </label>
+
+                        <textarea
+                          name="reason"
+                          value={booking.reason}
+                          onChange={handleBookingChange}
+                          placeholder="Mô tả tình trạng hoặc nhu cầu khám..."
+                          rows="4"
+                          className=" w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none transition resize-none  focus:border-yellow-500 focus:bg-white focus:ring-4 focus:ring-yellow-100"
+                        />
+                      </div>
+
+                      {/* BUTTONS */}
+                      <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2">
+
+                        <button
+                          type="button"
+                          onClick={() => setModalOpen(false)}
+                          className=" w-full sm:w-auto px-5 h-11 rounded-xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-100  transition"
+                        >
+                          Hủy
+                        </button>
+
+                        <button
+                          type="submit"
+                          disabled={submitting}
+                          className=" w-full sm:w-auto px-6 h-11 rounded-xl text-white font-bold shadow-lg transition hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed"
+                          style={{
+                            background:
+                              "linear-gradient(135deg, #D4A843 0%, #b98d2d 100%)",
+                          }}
+                        >
+                          {submitting ? "Đang gửi..." : "Xác nhận đặt lịch"}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p className="text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-1" style={{color:"#C07A3A"}}>Giờ Mở Cửa</p>
-                <p className="text-white/80 text-xs sm:text-sm">08:00 - 20:00, Thứ hai - Chủ nhật</p>
-              </div>
-              <div>
-                <p className="text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-1" style={{color:"#C07A3A"}}>Liên Hệ</p>
-                <p className="text-lg sm:text-xl font-black" style={{color:"#D4A843"}}> 0775771771</p>
-              </div>
-            </div>
-          </div>
-          {/* bottom */}
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-6 sm:mt-8">
-              <a
-                href="https://www.bing.com/maps/search?v=2&pc=FACEBK&mid=8100&mkt=en-US&fbclid=IwY2xjawRw_illeHRuA2FlbQIxMABicmlkETFITXpTRHc5azUxbnB1U1o4c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHqj7LtAwGbeBB2A0vjbt7aPZX6LBUa6HlLGYPZNNg6JW0FgpKoUplUPige8o_aem_cFX7H9-JBwTHp3IIOTcekQ&FORM=FBKPL1&q=125+H%C3%B9ng+V%C6%B0%C6%A1ng++%C3%81i+Ngh%C4%A9a+%C4%90%E1%BA%A1i+L%E1%BB%99c+Qu%E1%BA%A3ng+Nam%2C+Quang+Nam%2C+Vietnam%2C+51000&cp=15.882057%7E108.120305&lvl=16&style=r"
-                target="_blank"
-                rel="noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition hover:scale-[1.02]"
-                style={{
-                  backgroundColor: "#D4A843",
-                  color: "#1a0000",
-                }}
-              >
-                <span className="text-sm sm:text-base">📍</span>
-                <span>Mở Maps</span>
-              </a>
-
-              <a
-                href="tel:0775771771"
-                className="flex-1 flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold border border-white/20 text-white hover:border-white/40 hover:bg-white/5 transition"
-              >
-                <span className="text-sm sm:text-base">📞</span>
-                <span>Liên hệ</span>
-              </a>
-            </div>
-            </div>
-           {/* right */}
-           <div className="flex-1 rounded-2xl sm:rounded-3xl overflow-hidden" style={{height: "300px", mdHeight: "500px"}}>
-           <img src={map} alt="Nha Khoa Á Châu II" 
-              className="w-full h-full object-cover"
-              style={{display:"block"}}
-           />
-           </div>
-      </div>
-
-      {/* bottom */}
-      <div className="max-w-[1100px] mx-auto mt-6 sm:mt-8 pt-4 sm:pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] sm:text-xs" style={{borderColor:"#d6c4b0", color:"#8B5E3C"}}>
-        <span>@2026 Nha Khoa Quốc Tế Á Châu II. All rights reserved.</span>
-        <span className="hidden sm:inline">Thiết kế bởi hồ phước thái</span>
-      </div>
-     </div>
-
-      {/* MODAL */}
-      {modalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center p-3 sm:p-4 z-50">
-          <div className="bg-white rounded-lg sm:rounded-xl w-full max-w-sm md:max-w-xl p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
-            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Đặt lịch khám</h2>
-
-            <form onSubmit={handleBookingSubmit} className="space-y-3 sm:space-y-4">
-              <input
-                name="patientPhone"
-                value={booking.patientPhone}
-                onChange={handleBookingChange}
-                placeholder="Số điện thoại"
-                className="w-full border p-2.5 sm:p-3 rounded text-sm"
-              />
-              {errors.patientPhone && <p className="text-red-500 text-xs">{errors.patientPhone}</p>}
-              
-              <input
-                name="patientName"
-                value={booking.patientName}
-                onChange={handleBookingChange}
-                placeholder="Họ tên"
-                className="w-full border p-2.5 sm:p-3 rounded text-sm"
-              />
-              {errors.patientName && <p className="text-red-500 text-xs">{errors.patientName}</p>}
-              
-              <input
-                type="datetime-local"
-                name="appointmentTime"
-                value={booking.appointmentTime}
-                onChange={handleBookingChange}
-                className="w-full border p-2.5 sm:p-3 rounded text-sm"
-              />
-              {errors.appointmentTime && <p className="text-red-500 text-xs">{errors.appointmentTime}</p>}
-              
-              <textarea
-                name="reason"
-                value={booking.reason}
-                onChange={handleBookingChange}
-                placeholder="Lý do"
-                className="w-full border p-2.5 sm:p-3 rounded text-sm"
-                rows="3"
-              />
-
-              <div className="flex justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="px-3 sm:px-4 py-2 sm:py-2.5 border rounded text-sm"
-                >
-                  Hủy
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-3 sm:px-4 py-2 sm:py-2.5 bg-green-700 text-white rounded text-sm"
-                >
-                  {submitting ? "Đang gửi..." : "Gửi"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+            )}
 
     </div>
   );
