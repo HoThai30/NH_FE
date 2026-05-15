@@ -109,6 +109,7 @@ export const visitAPI = {
   create: (data) => api.post('/visits', data),
   getById: (id) => api.get(`/visits/${id}`),
   update: (id, data) => api.put(`/visits/${id}`, data),
+  getByDate: (filterDate) => api.get('/visits', { params: { filterDate } }),
 };
 
 // Notification Endpoints

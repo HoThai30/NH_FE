@@ -935,7 +935,7 @@ const serviceCards = isLoading ? (
                   </div>
 
                   {/* BODY */}
-                  <div className="p-5 sm:p-7 max-h-[85vh] overflow-y-auto">
+                  <div className="p-5 sm:p-7 max-h-[80vh] overflow-y-auto">
 
                     <form
                       onSubmit={handleBookingSubmit}

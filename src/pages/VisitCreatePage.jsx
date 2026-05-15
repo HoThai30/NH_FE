@@ -9,7 +9,9 @@ export default function VisitCreatePage() {
     diagnosis: '',
     treatment: '',
     notes: '',
-    appointment: { id: '' },
+    appointment: { id: '',       
+
+    },
   });
 
   const handleInputChange = (e) => {
