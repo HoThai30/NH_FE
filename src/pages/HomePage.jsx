@@ -207,182 +207,159 @@ const serviceCards = isLoading ? (
 
 
 
-return (
+  return (
     <div className="bg-white text-sm">
 
       {/* HERO */}
-        <div
-          style={{ backgroundColor: "#2b0202" }}
-          className="relative w-full overflow-hidden text-white"
-        >
+      <div
+        style={{ backgroundColor: "#2b0202" }}
+        className="w-full min-h-screen text-white"
+      >
           {/* chữ mờ */}
-          <div
-            className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden"
-            style={{ zIndex: 0 }}
-          >
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden" style={{zIndex: 0}}>
+              <div className="text-center font-black text-white leading-none" style={{opacity: 0.05, fontFamily: "serif"}}>
+                <div style={{fontSize: "clamp(60px, 11vw, 150px)", letterSpacing: "0.08em"}}>Á CHÂU</div>
+                <div style={{fontSize: "clamp(50px, 9vw, 120px)", letterSpacing: "0.15em"}}>II</div>
+              </div>
+        </div>
+
+        {/* HERO BODY */}
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-12 md:py-16 flex flex-col md:flex-row items-center gap-6 sm:gap-8 md:gap-12">
+          
+          {/* LEFT */}
+          <div className="flex-1 flex flex-col gap-3 sm:gap-4 md:gap-5">
+
+            {/* Badge */}
             <div
-              className="text-center font-black text-white leading-none"
-              style={{
-                opacity: 0.05,
-                fontFamily: "serif",
-              }}
-            >
-              <div
+                className="inline-flex items-center gap-2 sm:gap-3 lg:gap-4 px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 rounded-xl sm:rounded-2xl w-fit shadow-lg"
                 style={{
-                  fontSize: "clamp(60px, 12vw, 180px)",
-                  letterSpacing: "0.08em",
+                  backgroundColor: "rgba(82, 1, 1, 0.8)",
+                  boxShadow: "0 0 20px rgba(212, 168, 67, 0.6)" // ánh vàng
                 }}
               >
-                Á CHÂU
+                <div className="w-8 sm:w-9 lg:w-10 h-8 sm:h-9 lg:h-10 rounded-lg bg-white/20 flex items-center justify-center overflow-hidden">
+                <img
+                  src="/uploads/logo.jpg"
+                  alt="logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
 
-              <div
-                style={{
-                  fontSize: "clamp(40px, 8vw, 120px)",
-                  letterSpacing: "0.15em",
-                }}
-              >
-                II
+                <div>
+                  <p className="text-xs sm:text-sm font-bold tracking-widest uppercase text-yellow-400">
+                    Nha Khoa Á Châu II
+                  </p>
+                  <p className="text-[10px] sm:text-xs text-white">
+                    Nha khoa • Đại Lộc
+                  </p>
+                </div>
               </div>
+
+            {/* Info */}
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              <span className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs bg-white/10">
+                ⭐ 4.9/5 Google Maps
+              </span>
+              <span className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs bg-white/10">
+                💬 2.1K+ đánh giá
+              </span>
+              <span className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs bg-white/10">
+                🕐 08:00 – 20:00
+              </span>
+            </div>
+
+            {/* Sub title */}
+            <p className="text-[10px] sm:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase text-yellow-400 font-medium">
+              Niềng Răng • Cấy Implant • Thẩm Mỹ Nụ Cười
+            </p>
+
+            {/* Title */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-tight sm:leading-none font-serif">
+              Nha Khoa <br className="hidden sm:block" /> Á Châu II
+            </h1>
+
+            {/* Description */}
+            <p className="text-white/70 text-xs sm:text-sm leading-relaxed max-w-md">
+               Chăm sóc răng miệng toàn diện tại nha khoa quốc tế Á Châu II với đội ngũ bác sĩ chuyên môn cao và công nghệ hiện đại.
+            </p>
+          </div>
+          <div className="flex-1 w-full sm:w-auto">
+      <div
+        className="relative rounded-[28px] overflow-hidden border border-white/15 bg-white/10 backdrop-blur-xl shadow-2xl"
+      >
+
+    {/* IMAGE */}
+    <div className="relative">
+
+      <img
+        src={hero}
+        alt="Nha khoa Á Châu"
+        className="w-full h-[260px] sm:h-[360px] md:h-[500px] object-cover"
+        style={{ objectPosition: "40% 60%" }}
+      />
+
+      {/* overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+
+      {/* FLOATING MINI TAG */}
+      <div
+        className="absolute top-3 left-3 sm:top-5 sm:left-5 z-20 bg-primaryDark backdrop-blur-xl border border-white/15 rounded-full px-3 sm:px-5 py-1.5 sm:py-2 shadow-xl"
+      >
+        <div className="flex items-center gap-2">
+
+          {/* dot */}
+          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
+
+          <p
+            className="text-[9px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] font-bold text-yellow-400 whitespace-nowrap"
+          >
+            Nha khoa chuẩn<br/> quốc tế  
+          </p>
+        </div>
+      </div>
+
+          {/* FLOATING MINI TAGS */}
+          <div
+            className="absolute left-3 right-3 bottom-3 sm:left-6 sm:right-6 sm:bottom-6 flex gap-2 sm:gap-3"
+          >
+            {/* TAG 1 */}
+            <div
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl px-3 py-2 text-white shadow-xl"
+            >
+              <span className="text-sm sm:text-base">🦷</span>
+
+              <span className="text-[10px] sm:text-xs font-semibold whitespace-nowrap">
+                Công nghệ hiện đại
+              </span>
+            </div>
+
+            {/* TAG 2 */}
+            <div
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl px-3 py-2 text-white shadow-xl"
+            >
+              <span className="text-sm sm:text-base"> ✨</span>
+
+              <span className="text-[10px] sm:text-xs font-semibold whitespace-nowrap">
+                Chuẩn quốc tế
+              </span>
+            </div>
+
+            {/* TAG 3 */}
+            <div
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl px-3 py-2 text-white shadow-xl"
+            >
+              <span className="text-sm sm:text-base">👨‍⚕️</span>
+
+              <span className="text-[10px] sm:text-xs font-semibold whitespace-nowrap">
+                Bác sĩ tận tâm
+              </span>
             </div>
           </div>
-
-          {/* HERO BODY */}
-          <div className="relative z-10 max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-10 py-6 md:py-10 lg:py-14">
-
-            <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
-
-              {/* LEFT */}
-              <div className="flex-1 flex flex-col gap-4 md:gap-5 text-center lg:text-left">
-
-                {/* Badge */}
-                <div
-                  className="mx-auto lg:mx-0 inline-flex items-center gap-3 px-4 sm:px-5 py-2.5 rounded-2xl w-fit shadow-lg"
-                  style={{
-                    backgroundColor: "rgba(82, 1, 1, 0.75)",
-                    backdropFilter: "blur(12px)",
-                    boxShadow: "0 0 20px rgba(212, 168, 67, 0.35)",
-                  }}
-                >
-                  <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center overflow-hidden">
-                    <img
-                      src="/uploads/logo.jpg"
-                      alt="logo"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-
-                  <div>
-                    <p className="text-xs sm:text-sm font-bold tracking-widest uppercase text-yellow-400">
-                      Nha Khoa Á Châu II
-                    </p>
-
-                    <p className="text-[11px] text-white/80">
-                      Nha khoa • Đại Lộc
-                    </p>
-                  </div>
-                </div>
-
-                {/* INFO */}
-                <div className="flex flex-wrap justify-center lg:justify-start gap-2">
-                  <span className="px-3 py-1.5 rounded-full text-[11px] sm:text-xs bg-white/10 backdrop-blur-md">
-                    ⭐ 4.9/5 Google Maps
-                  </span>
-
-                  <span className="px-3 py-1.5 rounded-full text-[11px] sm:text-xs bg-white/10 backdrop-blur-md">
-                    💬 2.1K+ đánh giá
-                  </span>
-
-                  <span className="px-3 py-1.5 rounded-full text-[11px] sm:text-xs bg-white/10 backdrop-blur-md">
-                    🕐 08:00 – 20:00
-                  </span>
-                </div>
-
-                {/* subtitle */}
-                <p className="text-[11px] sm:text-xs tracking-[0.2em] uppercase text-yellow-400 font-medium">
-                  Niềng Răng • Cấy Implant • Thẩm Mỹ Nụ Cười
-                </p>
-
-                {/* TITLE */}
-                <h1 className="font-black font-serif leading-[0.95] text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-                  Nha Khoa
-                  <br />
-                  Á Châu II
-                </h1>
-
-                {/* DESC */}
-                <p className="text-white/70 text-sm sm:text-base leading-relaxed max-w-[580px] mx-auto lg:mx-0">
-                  Chăm sóc răng miệng toàn diện tại nha khoa quốc tế Á Châu II
-                  với đội ngũ bác sĩ chuyên môn cao và công nghệ hiện đại.
-                </p>
-              </div>
-
-              {/* RIGHT IMAGE */}
-              <div className="flex-1 w-full max-w-[640px]">
-
-                <div className="relative rounded-[28px] overflow-hidden border border-white/15 bg-white/10 backdrop-blur-xl shadow-2xl">
-
-                  {/* IMAGE */}
-                  <div className="relative">
-
-                    <img
-                      src={hero}
-                      alt="Nha khoa Á Châu"
-                      className="w-full h-[200px] sm:h-[320px] lg:h-[420px] object-cover"
-                      style={{ objectPosition: "40% 60%" }}
-                    />
-
-                    {/* overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-
-                    {/* TOP TAG */}
-                    <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20 bg-[#2b0202]/80 backdrop-blur-xl border border-white/15 rounded-full px-4 py-2 shadow-xl">
-
-                      <div className="flex items-center gap-2">
-
-                        <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-
-                        <p className="text-[10px] sm:text-xs uppercase tracking-[0.15em] font-bold text-yellow-400 whitespace-nowrap">
-                          Nha khoa chuẩn <br /> quốc tế
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* BOTTOM TAGS */}
-                    <div className="absolute left-3 right-3 bottom-4 sm:left-5 sm:right-5 sm:bottom-6 flex flex-wrap justify-center gap-2">
-
-                      {/* TAG */}
-                      <div className="flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl px-3 py-2 text-white shadow-xl">
-                        <span>🦷</span>
-
-                        <span className="text-[10px] sm:text-xs font-semibold whitespace-nowrap">
-                          Công nghệ hiện đại
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl px-3 py-2 text-white shadow-xl">
-                        <span>✨</span>
-
-                        <span className="text-[10px] sm:text-xs font-semibold whitespace-nowrap">
-                          Chuẩn quốc tế
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl px-3 py-2 text-white shadow-xl">
-                        <span>👨‍⚕️</span>
-
-                        <span className="text-[10px] sm:text-xs font-semibold whitespace-nowrap">
-                          Bác sĩ tận tâm
-                        </span>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          </div>
+          </div>
           </div>
         </div>
+      </div>
 
   {/* ABOUT */}
         <div className="relative overflow-hidden py-10 sm:py-14 lg:py-18 bg-gradient-to-b from-yellow-50 via-yellow-100 to-yellow-50">
@@ -439,7 +416,7 @@ return (
 
                 {/* BADGE */}
                 <div
-                  className="inline-flex items-center gap-2 bg-yellow-100 text-primaryDark px-4 py-2 rounded-full text-[11px] sm:text-xs font-bold shadow-sm mb-4"
+                  className="inline-flex items-center gap-2 bg-yellow-200 text-primaryDark px-4 py-2 rounded-full text-[11px] sm:text-xs font-bold shadow-sm mb-4"
                 >
                   ✨ Hơn 10 năm chăm sóc nụ cười Việt
                 </div>
@@ -958,7 +935,7 @@ return (
                   </div>
 
                   {/* BODY */}
-                  <div className="p-5 sm:p-7 max-h-[85vh] overflow-y-auto">
+                  <div className="p-5 sm:p-7 max-h-[80vh] overflow-y-auto">
 
                     <form
                       onSubmit={handleBookingSubmit}
