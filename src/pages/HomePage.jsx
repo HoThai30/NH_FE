@@ -25,6 +25,7 @@ const HomePage = () => {
 
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -501,12 +502,12 @@ const serviceCards = isLoading ? (
                       <div
                         className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-yellow-300 flex items-center justify-center font-bold text-[#2b0202] text-sm  sm:text-base "
                       >
-                        M
+                        P
                       </div>
 
                       <div>
                         <p className="font-bold text-xs sm:text-sm text-[#2b0202]">
-                          Minh Anh
+                          Phước Định
                         </p>
 
                         <p className="text-[10px] sm:text-[11px] text-gray-500">
@@ -549,66 +550,170 @@ const serviceCards = isLoading ? (
             </div>
           </div>
         </div>
-       {/* Hinh anh khach hang*/}
-      <div id="gallery" className="py-16 px-6" style={{backgroundColor: "#f5ede6"}}>
-          <div className="max-w-[1100px] mx-auto">
+          {/* Hinh anh khach hang*/}
+        <div id="gallery" className="py-16 px-6" style={{backgroundColor: "#f5ede6"}}>
+            <div className="max-w-[1100px] mx-auto">
 
-            <div className="flex items-start justify-between mb-8">
-              <div>
-                <p className="text-xs font-bold tracking-[0.18em] uppercase mb-2" style={{color:"#8B5E3C"}}> Gallery thực tế</p>
-                <h2 className="text-3xl font-black leading-tight" style={{color:"#1a0a00", fontFamily:"serif", maxWidth: 400}}>
-                  Nụ cười thật<br/> khách hàng thật.
-                </h2>
-              </div>
-              <div className="flex items-center gap-2 mt-2">
-                <button onClick={() => setGalleryPage(p => Math.max(0, p-1))}
-                        disabled={setGalleryPage ===0}
-                        className="w-10 h-10 rounded-full flex items-center justify-center border text-lg font-bold transition"
-                        style={{backgroundColor: galleryPage === 0? "#e8d8cc" : "white", color: galleryPage === 0? "#b0907a":"#1a0a00", borderColor:"d6c4b0", cursor: galleryPage ===0?"default": "pointer"}}
-                  >   ← </button>
-                <button onClick={() => setGalleryPage(p => Math.min(totalGalleryPages -1, p+1))}
-                        disabled={galleryPage === totalGalleryPages -1}
-                        className="w-10 h-10 rounded-full flex items-center justify-center border text-lg font-bold transition"
-                        style={{backgroundColor: galleryPage === totalGalleryPages -1? "#e8d8cc" : "white", color: galleryPage === totalGalleryPages -1? "#b0907a":"#1a0a00", borderColor:"d6c4b0", cursor: galleryPage ===totalGalleryPages -1?"default": "pointer"}}
-                  >   → </button>
-              </div>
-            </div>
+              <div className="flex items-start justify-between mb-8">
+                <div>
+                  <p className="text-xs font-bold tracking-[0.18em] uppercase mb-2" style={{color:"#8B5E3C"}}> Gallery thực tế</p>
+                  <h2 className="text-3xl font-black leading-tight" style={{color:"#1a0a00", fontFamily:"serif", maxWidth: 400}}>
+                    Nụ cười thật<br/> khách hàng thật.
+                  </h2>
+                </div>
 
-              <div className=" grid grid-rows-2 gap-3" style={{height:480 , gridTemplateColumns: "3fr 1.1fr 1.1fr"}}>
-                <div className="relative row-span-2 rounded-3xl overflow-hidden col-span-1">
-                  <img src= {currentGallery[0]} alt="khách hàng 1" 
-                  className="w-full h-full object-cover transition-all duration-500"
+                <div className="flex items-center gap-2 mt-2">
+                  <button
+                    onClick={() => setGalleryPage(p => Math.max(0, p-1))}
+                    disabled={setGalleryPage ===0}
+                    className="w-10 h-10 rounded-full flex items-center justify-center border text-lg font-bold transition duration-300 hover:scale-105"
+                    style={{
+                      backgroundColor: galleryPage === 0? "#e8d8cc" : "white",
+                      color: galleryPage === 0? "#b0907a":"#1a0a00",
+                      borderColor:"d6c4b0",
+                      cursor: galleryPage ===0?"default": "pointer"
+                    }}
+                  >
+                    ←
+                  </button>
+
+                  <button
+                    onClick={() => setGalleryPage(p => Math.min(totalGalleryPages -1, p+1))}
+                    disabled={galleryPage === totalGalleryPages -1}
+                    className="w-10 h-10 rounded-full flex items-center justify-center border text-lg font-bold transition duration-300 hover:scale-105"
+                    style={{
+                      backgroundColor: galleryPage === totalGalleryPages -1? "#e8d8cc" : "white",
+                      color: galleryPage === totalGalleryPages -1? "#b0907a":"#1a0a00",
+                      borderColor:"d6c4b0",
+                      cursor: galleryPage ===totalGalleryPages -1?"default": "pointer"
+                    }}
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+
+              <div
+                className="grid grid-rows-2 gap-3"
+                style={{
+                  height:480,
+                  gridTemplateColumns: "3fr 1.1fr 1.1fr"
+                }}
+              >
+
+                {/* IMAGE 1 */}
+                <div className="relative row-span-2 rounded-3xl overflow-hidden col-span-1 group cursor-pointer"
+                  onClick={() => setSelectedImage(currentGallery[0])}
+                  >
+                  <img
+                    src={currentGallery[0]}
+                    alt="khách hàng 1"
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-lg text-xs font-semibold" style={{backgroundColor: "rgba(255,255,255,0.88)", color: "#1a0a00"}}>
-                          Ảnh khách hàng
+
+                  {/* overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
+
+                  {/* glow */}
+                  <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition duration-500"></div>
+
+                  <div
+                    className="absolute bottom-3 left-3 px-3 py-1.5 rounded-lg text-xs font-semibold backdrop-blur-md transition-all duration-300"
+                    style={{
+                      backgroundColor: "rgba(255,255,255,0.88)",
+                      color: "#1a0a00"
+                    }}
+                  >
+                    Ảnh khách hàng
+                  </div>
+
+                  {/* icon */}
+                  <div className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+                    🔍
                   </div>
                 </div>
-                
-                <div className="rounded-3xl overflow-hidden col-span-1">
-                  <img src={currentGallery[1]} alt="khách hàng 2"
-                  className="w-full h-full object-cover transition-all duration-500"
+
+                {/* IMAGE 2 */}
+                <div className="rounded-3xl overflow-hidden col-span-1 relative group cursor-pointer"
+                  onClick={() => setSelectedImage(currentGallery[1])}
+                  >
+                  <img
+                    src={currentGallery[1]}
+                    alt="khách hàng 2"
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                   />
-                </div>
-                <div className="rounded-3xl overflow-hidden col-span-1">
-                  <img src={currentGallery[2]} alt="khách hàng 3"
-                  className="w-full h-full object-cover transition-all duration-500"
-                  />
+
+                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition duration-500"></div>
                 </div>
 
-                <div className="rounded-3xl overflow-hidden col-span-1">
-                  <img src={currentGallery[3]} alt="khách hàng 4"
-                  className="w-full h-full object-cover transition-all duration-500"
+                {/* IMAGE 3 */}
+                <div className="rounded-3xl overflow-hidden col-span-1 relative group cursor-pointer"
+                  onClick={() => setSelectedImage(currentGallery[2])}
+                  >
+                  <img
+                    src={currentGallery[2]}
+                    alt="khách hàng 3"
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                   />
-                </div>
-                <div className="rounded-3xl overflow-hidden col-span-1">
-                  <img src={currentGallery[4]} alt="khách hàng 5"
-                  className="w-full h-full object-cover transition-all duration-500"
-                  />
+
+                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition duration-500"></div>
                 </div>
 
-              </div>    
+                {/* IMAGE 4 */}
+                <div className="rounded-3xl overflow-hidden col-span-1 relative group cursor-pointer"
+                  onClick={() => setSelectedImage(currentGallery[3])}
+                  >
+                  <img
+                    src={currentGallery[3]}
+                    alt="khách hàng 4"
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  />
+
+                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                </div>
+
+                {/* IMAGE 5 */}
+                <div className="rounded-3xl overflow-hidden col-span-1 relative group cursor-pointer"
+                  onClick={() => setSelectedImage(currentGallery[4])}
+                  >
+                  <img
+                    src={currentGallery[4]}
+                    alt="khách hàng 5"
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  />
+
+                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                </div>
+
+              </div>
+            </div>
+        </div>
+      {/* IMAGE MODAL */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div
+            className="relative max-w-5xl w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* close button */}
+            <button
+              className="absolute -top-12 right-0 text-white text-4xl hover:scale-110 transition"
+              onClick={() => setSelectedImage(null)}
+            >
+              ×
+            </button>
+
+            <img
+              src={selectedImage}
+              alt="preview"
+              className="w-full max-h-[90vh] object-contain rounded-3xl shadow-2xl animate-scaleIn"
+            />
           </div>
-      </div>
+        </div>
+      )}
    {/* service */}
       <div id="dich-vu" className="py-8 sm:py-12 md:py-14 px-4 sm:px-6 relative" style={{ background: "#2b0202" }}>
         
@@ -878,7 +983,7 @@ const serviceCards = isLoading ? (
                         </div>
                         </div>
                       {/* right */}
-                      <div className="flex-1 rounded-2xl sm:rounded-3xl overflow-hidden" style={{height: "300px", mdHeight: "500px"}}>
+                      <div className="flex-1 rounded-2xl sm:rounded-3xl overflow-hidden" style={{height: "500px", mdHeight: "500px"}}>
                       <img src={map} alt="Nha Khoa Á Châu II" 
                           className="w-full h-full object-cover"
                           style={{display:"block"}}
