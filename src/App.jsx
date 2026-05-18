@@ -30,6 +30,7 @@ import ReceptionistEditPage from './pages/ReceptionistEditPage';
 import ServiceListPage from './pages/ServiceListPage';
 import PostDetailPage from './pages/PostDetailPage';
 import PostPromotionPage from './pages/PostPromotionPage';
+import PricingPage from './pages/PricingPage';
 
 
 function App() {
@@ -202,6 +203,10 @@ function App() {
           <Route path="/posts/:id" element={<PostDetailPage />} />
           <Route path="/tin-tuc" element={<PostDetailPage />} />
           <Route path="/khuyen-mai" element={<PostPromotionPage />} />
+
+          {/* Pricing Page Route */}
+          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/bang-gia" element={<PricingPage />} />
 
         </Routes>
       </AuthProvider>
