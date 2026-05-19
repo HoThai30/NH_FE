@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { dentalServiceAPI } from "../services/api";
-import "../styles/pricing-page.css";
 
 const PricingPage = () => {
   const [services, setServices] = useState([]);
