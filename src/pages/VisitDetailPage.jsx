@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { visitAPI } from "../services/api";
+import { PDFDocument, rgb } from "pdf-lib";
+import fontkit from "@pdf-lib/fontkit";
 
 export default function VisitDetailPage() {
   const navigate = useNavigate();
@@ -68,62 +70,317 @@ export default function VisitDetailPage() {
     }
   };
 
-  const handleExport = () => {
-    const content = `
-Hồ Sơ Khám Bệnh
+const handleExport = async () => {
+  try {
+    const pdfDoc = await PDFDocument.create();
 
-ID: ${visit.id}
-Bệnh Nhân: ${
+    pdfDoc.registerFontkit(fontkit);
+
+    const fontBytes = await fetch(
+      "/fonts/NotoSans-Regular.ttf"
+    ).then((res) => res.arrayBuffer());
+
+    const customFont = await pdfDoc.embedFont(fontBytes);
+
+    const page = pdfDoc.addPage([595, 842]);
+
+    const { width, height } = page.getSize();
+
+    const margin = 40;
+
+    let y = height - 40;
+
+    // COLORS
+    const primary = rgb(0.15, 0.15, 0.15);
+    const gold = rgb(0.8, 0.64, 0.26);
+    const gray = rgb(0.45, 0.45, 0.45);
+    const lightGray = rgb(0.92, 0.92, 0.92);
+
+    // ================= HELPERS =================
+
+    const drawSectionTitle = (title) => {
+      page.drawText(title, {
+        x: margin,
+        y,
+        size: 13,
+        font: customFont,
+        color: gold,
+      });
+
+      y -= 18;
+
+      page.drawLine({
+        start: { x: margin, y },
+        end: { x: width - margin, y },
+        thickness: 1,
+        color: lightGray,
+      });
+
+      y -= 18;
+    };
+
+    const drawField = (label, value, left, top) => {
+      page.drawText(label, {
+        x: left,
+        y: top,
+        size: 9,
+        font: customFont,
+        color: gray,
+      });
+
+      page.drawText(String(value || "N/A"), {
+        x: left,
+        y: top - 14,
+        size: 11,
+        font: customFont,
+        color: primary,
+      });
+    };
+
+    const drawMultilineText = (text, x, startY) => {
+      const lines = String(text || "").split("\n");
+
+      lines.forEach((line) => {
+        page.drawText(line || " ", {
+          x,
+          y: startY,
+          size: 10,
+          font: customFont,
+          color: primary,
+          maxWidth: 500,
+        });
+
+        startY -= 15;
+      });
+
+      return startY;
+    };
+
+    // ================= HEADER =================
+
+    page.drawRectangle({
+      x: 0,
+      y: height - 110,
+      width,
+      height: 110,
+      color: rgb(0.98, 0.98, 0.98),
+    });
+
+    page.drawText("NHA KHOA QUỐC TẾ Á CHÂU II", {
+      x: margin,
+      y: height - 55,
+      size: 22,
+      font: customFont,
+      color: primary,
+    });
+
+    page.drawText("PHIẾU HỒ SƠ KHÁM BỆNH", {
+      x: margin,
+      y: height - 82,
+      size: 13,
+      font: customFont,
+      color: gold,
+    });
+
+    page.drawText(
+      `Mã hồ sơ: #${visit.id}`,
+      {
+        x: width - 170,
+        y: height - 60,
+        size: 11,
+        font: customFont,
+        color: gray,
+      }
+    );
+
+    y = height - 140;
+
+    // ================= PATIENT BOX =================
+
+    page.drawRectangle({
+      x: margin,
+      y: y - 120,
+      width: width - margin * 2,
+      height: 120,
+      borderWidth: 1,
+      borderColor: lightGray,
+    });
+
+    page.drawText("THÔNG TIN BỆNH NHÂN", {
+      x: margin + 15,
+      y: y - 20,
+      size: 12,
+      font: customFont,
+      color: gold,
+    });
+
+    drawField(
+      "Họ và tên",
       visit.patient?.user?.name ||
-      visit.appointment?.patientName ||
-      "N/A"
-    }
-Điện Thoại: ${
+        visit.appointment?.patientName,
+      margin + 15,
+      y - 45
+    );
+
+    drawField(
+      "Số điện thoại",
       visit.patient?.user?.phone ||
-      visit.appointment?.patientPhone ||
-      "N/A"
-    }
-Tuổi: ${
+        visit.appointment?.patientPhone,
+      margin + 250,
+      y - 45
+    );
+
+    drawField(
+      "Tuổi",
       visit.patient?.age ||
-      visit.appointment?.patientAge ||
-      "N/A"
-    }
-Giới Tính: ${
+        visit.appointment?.patientAge,
+      margin + 15,
+      y - 85
+    );
+
+    drawField(
+      "Giới tính",
       visit.patient?.gender ||
-      visit.appointment?.patientGender ||
-      "N/A"
-    }
-Thời Gian Khám: ${
+        visit.appointment?.patientGender,
+      margin + 150,
+      y - 85
+    );
+
+    drawField(
+      "Ngày khám",
       visit.appointment?.startTime
         ? new Date(
             visit.appointment.startTime
           ).toLocaleString("vi-VN")
-        : "N/A"
-    }
+        : "N/A",
+      margin + 300,
+      y - 85
+    );
 
-Ghi Chú:
-${formData.notes}
+    y -= 150;
 
-Thủ Thuật:
-${formData.procedures}
+    // ================= NOTES =================
 
-Chi Phí:
-${Number(formData.cost).toLocaleString(
-      "vi-VN"
-    )} VND
+    drawSectionTitle("GHI CHÚ TÌNH TRẠNG");
 
-Ngày Tạo:
-${
-      visit.createdAt
-        ? new Date(
-            visit.createdAt
-          ).toLocaleString("vi-VN")
-        : "N/A"
-    }
-    `.trim();
+    y = drawMultilineText(
+      formData.notes || "Không có ghi chú",
+      margin,
+      y
+    );
 
-    const blob = new Blob([content], {
-      type: "text/plain",
+    y -= 20;
+
+    // ================= PROCEDURES =================
+
+    drawSectionTitle("THỦ THUẬT ĐIỀU TRỊ");
+
+    y = drawMultilineText(
+      formData.procedures ||
+        "Không có thủ thuật",
+      margin,
+      y
+    );
+
+    y -= 30;
+
+    // ================= COST BOX =================
+
+    page.drawRectangle({
+      x: margin,
+      y: y - 70,
+      width: width - margin * 2,
+      height: 70,
+      color: rgb(0.98, 0.97, 0.93),
+      borderWidth: 1,
+      borderColor: rgb(0.9, 0.85, 0.7),
+    });
+
+    page.drawText("TỔNG CHI PHÍ ĐIỀU TRỊ", {
+      x: margin + 20,
+      y: y - 28,
+      size: 11,
+      font: customFont,
+      color: gray,
+    });
+
+    page.drawText(
+      `${Number(formData.cost).toLocaleString(
+        "vi-VN"
+      )} ₫`,
+      {
+        x: margin + 20,
+        y: y - 55,
+        size: 22,
+        font: customFont,
+        color: gold,
+      }
+    );
+
+    y -= 110;
+
+    // ================= SIGNATURE =================
+
+    page.drawText(
+      `Ngày tạo hồ sơ: ${
+        visit.createdAt
+          ? new Date(
+              visit.createdAt
+            ).toLocaleString("vi-VN")
+          : "N/A"
+      }`,
+      {
+        x: margin,
+        y,
+        size: 9,
+        font: customFont,
+        color: gray,
+      }
+    );
+
+    page.drawText("Bác sĩ phụ trách", {
+      x: width - 180,
+      y,
+      size: 10,
+      font: customFont,
+      color: gray,
+    });
+
+    y -= 60;
+
+    page.drawLine({
+      start: { x: width - 210, y },
+      end: { x: width - 90, y },
+      thickness: 1,
+      color: lightGray,
+    });
+
+    // ================= FOOTER =================
+
+    page.drawLine({
+      start: { x: margin, y: 40 },
+      end: { x: width - margin, y: 40 },
+      thickness: 1,
+      color: lightGray,
+    });
+
+    page.drawText(
+      "Hệ thống quản lý nha khoa • Nha Khoa Quốc Tế Á Châu II",
+      {
+        x: margin,
+        y: 25,
+        size: 8,
+        font: customFont,
+        color: gray,
+      }
+    );
+
+    // ================= EXPORT =================
+
+    const pdfBytes = await pdfDoc.save();
+
+    const blob = new Blob([pdfBytes], {
+      type: "application/pdf",
     });
 
     const url = URL.createObjectURL(blob);
@@ -131,7 +388,8 @@ ${
     const a = document.createElement("a");
 
     a.href = url;
-    a.download = `hosokham-${visit.id}.txt`;
+
+    a.download = `hosokham-${visit.id}.pdf`;
 
     document.body.appendChild(a);
 
@@ -140,7 +398,12 @@ ${
     document.body.removeChild(a);
 
     URL.revokeObjectURL(url);
-  };
+  } catch (err) {
+    console.error(err);
+
+    alert("Lỗi: Không thể xuất PDF");
+  }
+};
 
   if (loading) {
     return (
