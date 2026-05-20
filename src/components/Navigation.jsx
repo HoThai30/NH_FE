@@ -78,11 +78,13 @@ export default function Navigation() {
           
           <div className="flex items-center gap-3">
             <div className="w-16 h-16 rounded-full overflow-hidden bg-white flex items-center justify-center">
+               <Link to="/" className={navItem}>
               <img
                 src="/uploads/logo.jpg"
                 alt="logo"
                 className="w-full h-full object-contain"
               />
+              </Link>
             </div>
           </div>
 
@@ -108,11 +110,13 @@ export default function Navigation() {
           {/* LOGO */}
           <div className="flex items-center gap-3 py-2">
             <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-white flex items-center justify-center">
+               <Link to="/" className={navItem}>
               <img
                 src="/uploads/logo.jpg"
                 alt="logo"
                 className="w-full h-full object-contain"
               />
+              </Link>
             </div>
           </div>
 
