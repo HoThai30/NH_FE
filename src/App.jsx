@@ -171,7 +171,7 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/book-appointment" element={<AnonymousAppointmentPage />} />
-          <Route path="/bang-gia" element={<PricingPage />} />
+          
 
           {/* Post Management Routes */}
           <Route
@@ -205,6 +205,9 @@ function App() {
           <Route path="/posts/:id" element={<PostDetailPage />} />
           <Route path="/tin-tuc" element={<PostDetailPage />} />
           <Route path="/khuyen-mai" element={<PostPromotionPage />} />
+
+          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/bang-gia" element={<PricingPage />} />
 
         </Routes>
       </AuthProvider>
