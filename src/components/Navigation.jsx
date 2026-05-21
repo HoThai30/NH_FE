@@ -268,12 +268,12 @@ export default function Navigation() {
               </button>
 
               {mobileServicesOpen && (
-                <div className="ml-4 flex flex-col pb-2">
+                <div className="mt-4 flex flex-col pb-2 max-h-[140px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-600">
 
                   {services.map((service) => (
                     <div
                       key={service.id}
-                      className="py-2 text-sm text-gray-200 border-l border-gray-500 pl-3"
+                      className="py-2 text-sm text-gray-200 border border-gray-500 px-3"
                     >
                       {service.name}
                     </div>
@@ -282,13 +282,13 @@ export default function Navigation() {
                 </div>
               )}
             </div>
-            <a
-              href="/#pricing"
+            <Link
+              href="/bang-gia"
               className={mobileNavItem}
               onClick={() => setMobileMenuOpen(false)}
             >
               BẢNG GIÁ
-            </a>
+            </Link>
 
             <Link
               to="/khuyen-mai"
