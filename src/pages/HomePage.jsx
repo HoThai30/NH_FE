@@ -14,6 +14,7 @@ const HomePage = () => {
   const [error, setError] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const [servicePage, setServicePage] = useState(0);
+  const [mobileServicePage, setMobileServicePage] = useState(0);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [booking, setBooking] = useState({
@@ -205,8 +206,6 @@ const serviceCards = isLoading ? (
      {error || "Đang cập nhật dịch vụ nha khoa"}
    </div>
  );
-
-
 
   return (
     <div className="bg-white text-sm">
@@ -736,58 +735,273 @@ const serviceCards = isLoading ? (
           </div>
         </div>
       )}
-   {/* service */}
-      <div id="dich-vu" className="py-8 sm:py-12 md:py-14 px-4 sm:px-6 relative" style={{ background: "#2b0202" }}>
-        
-        {/* chữ mờ */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
-          <div className="text-center font-black text-white leading-none opacity-5" style={{ fontFamily: "serif" }}>
-            <div style={{ fontSize: "clamp(60px, 11vw, 150px)", letterSpacing: "0.08em" }}>Á CHÂU</div>
-            <div style={{ fontSize: "clamp(50px, 9vw, 120px)", letterSpacing: "0.15em" }}>II</div>
-          </div>
-        </div>
+     {/* SERVICE */}
+          <div
+            id="dich-vu"
+            className="py-8 sm:py-12 md:py-14 px-4 sm:px-6 relative overflow-hidden"
+            style={{ background: "#2b0202" }}
+          >
+            {/* chữ mờ */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
+              <div
+                className="text-center font-black text-white leading-none opacity-5"
+                style={{ fontFamily: "serif" }}
+              >
+                <div
+                  style={{
+                    fontSize: "clamp(60px, 11vw, 150px)",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  Á CHÂU
+                </div>
 
-        <div className="max-w-[1100px] mx-auto relative z-10">
-
-          {/* header */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mb-8 sm:mb-10">
-            <div className="max-w-lg">
-              <h2 className="text-2xl sm:text-3xl font-black leading-tight text-white mb-2 sm:mb-3" style={{ fontFamily: "serif" }}>
-                Dịch Vụ Nha Khoa
-              </h2>
-              <p className="text-white/50 text-xs sm:text-sm">
-                Khám phá các dịch vụ nổi bật tại Nha Khoa Quốc Tế Á Châu II
-              </p>
+                <div
+                  style={{
+                    fontSize: "clamp(50px, 9vw, 120px)",
+                    letterSpacing: "0.15em",
+                  }}
+                >
+                  II
+                </div>
+              </div>
             </div>
 
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <button
-                onClick={() => setServicePage((prev) => Math.max(0, prev - 1))}
-                disabled={servicePage === 0}
-                className="w-8 sm:w-10 h-8 sm:h-10 rounded-full flex items-center justify-center text-base sm:text-lg font-bold transition hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{ backgroundColor: "rgba(255,255,255,0.12)", color: "white" }}
-              >
-                ←
-              </button>
+            <div className="max-w-[1100px] mx-auto relative z-10">
 
-              <button
-                onClick={() => setServicePage((prev) => Math.min(totalServicePages - 1, prev + 1))}
-                disabled={servicePage === totalServicePages - 1}
-                className="w-8 sm:w-10 h-8 sm:h-10 rounded-full flex items-center justify-center text-base sm:text-lg font-bold transition hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{ backgroundColor: "#D4A843", color: "#1a0000" }}
-              >
-                →
-              </button>
+              {/* HEADER */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mb-8 sm:mb-10">
+
+                <div className="max-w-lg">
+                  <h2
+                    className="text-2xl sm:text-3xl font-black leading-tight text-white mb-2 sm:mb-3"
+                    style={{ fontFamily: "serif" }}
+                  >
+                    Dịch Vụ Nha Khoa
+                  </h2>
+
+                  <p className="text-white/50 text-xs sm:text-sm">
+                    Khám phá các dịch vụ nổi bật tại Nha Khoa Quốc Tế Á Châu II
+                  </p>
+                </div>
+
+                {/* desktop arrows */}
+                <div className="hidden sm:flex items-center gap-2">
+                  <button
+                    onClick={() =>
+                      setServicePage((prev) => Math.max(prev - 1, 0))
+                    }
+                    disabled={servicePage === 0}
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed"
+                    style={{
+                      backgroundColor: "rgba(255,255,255,0.12)",
+                      color: "white",
+                    }}
+                  >
+                    ←
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      setServicePage((prev) =>
+                        Math.min(prev + 1, totalServicePages - 1)
+                      )
+                    }
+                    disabled={servicePage === totalServicePages - 1}
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed"
+                    style={{
+                      backgroundColor: "#D4A843",
+                      color: "#1a0000",
+                    }}
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+
+              {/* DESKTOP */}
+              <div className="hidden sm:grid sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5">
+
+                {isLoading ? (
+                  <div className="text-white/50 py-8">
+                    Đang tải dịch vụ...
+                  </div>
+                ) : currentServices.length > 0 ? (
+                  currentServices.map((service) => (
+                    <div
+                      key={service.id}
+                      className="group rounded-2xl overflow-hidden flex flex-col bg-white transition duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                      style={{
+                        boxShadow: "0 4px 18px rgba(0,0,0,0.15)",
+                      }}
+                    >
+                      {/* IMAGE */}
+                      <div
+                        className="relative w-full h-[180px] overflow-hidden"
+                        style={{ backgroundColor: "#f5ede6" }}
+                      >
+                        {service.imgService ? (
+                          <>
+                            {/* blur bg */}
+                            <img
+                              src={service.imgService}
+                              alt={service.name}
+                              className="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-40"
+                            />
+
+                            <div className="absolute inset-0 bg-black/5" />
+
+                            {/* main */}
+                            <div className="relative z-10 w-full h-full flex items-center justify-center p-3">
+                              <img
+                                src={service.imgService}
+                                alt={service.name}
+                                className="max-w-full max-h-full object-contain transition duration-500 group-hover:scale-105 drop-shadow-2xl"
+                                onError={(e) => {
+                                  e.target.src = "/no-image.png";
+                                }}
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <div className="flex items-center justify-center h-full text-gray-300 text-xs">
+                            Chưa có ảnh
+                          </div>
+                        )}
+                      </div>
+
+                      {/* CONTENT */}
+                      <div className="px-4 py-4 flex flex-col flex-1">
+
+                        <p className="text-[10px] font-bold tracking-widest uppercase text-[#1a0500] mb-1">
+                          {service.category || "Nha Khoa"}
+                        </p>
+
+                        <p className="font-semibold text-gray-900 text-sm line-clamp-2 min-h-[40px]">
+                          {service.name}
+                        </p>
+
+                        <p className="text-gray-400 text-xs mt-2 line-clamp-3 min-h-[48px]">
+                          {service.description ||
+                            "Dịch vụ nha khoa chuyên nghiệp"}
+                        </p>
+
+                        <p className="font-black text-gray-900 text-sm mt-auto pt-3">
+                          {formatPrice(service.price)}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-white/50 py-8">
+                    {error || "Đang cập nhật dịch vụ nha khoa"}
+                  </div>
+                )}
+              </div>
+
+              {/* MOBILE */}
+              <div className="sm:hidden">
+
+                {services.length > 0 && (
+                  <>
+                    <div className="group rounded-2xl overflow-hidden flex flex-col bg-white">
+                      {/* IMAGE */}
+                      <div
+                        className="relative w-full h-[220px] overflow-hidden"
+                        style={{ backgroundColor: "#f5ede6" }}
+                      >
+                        {services[mobileServicePage]?.imgService ? (
+                          <>
+                            <img
+                              src={services[mobileServicePage].imgService}
+                              alt={services[mobileServicePage].name}
+                              className="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-40"
+                            />
+
+                            <div className="absolute inset-0 bg-black/5" />
+
+                            <div className="relative z-10 w-full h-full flex items-center justify-center p-3">
+                              <img
+                                src={services[mobileServicePage].imgService}
+                                alt={services[mobileServicePage].name}
+                                className="max-w-full max-h-full object-contain"
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <div className="flex items-center justify-center h-full text-gray-300 text-xs">
+                            Chưa có ảnh
+                          </div>
+                        )}
+                      </div>
+
+                      {/* CONTENT */}
+                      <div className="px-4 py-4">
+
+                        <p className="text-[10px] font-bold tracking-widest uppercase text-[#1a0500] mb-1">
+                          {services[mobileServicePage]?.category ||
+                            "Nha Khoa"}
+                        </p>
+
+                        <p className="font-semibold text-gray-900 text-base">
+                          {services[mobileServicePage]?.name}
+                        </p>
+
+                        <p className="text-gray-400 text-sm mt-2">
+                          {services[mobileServicePage]?.description}
+                        </p>
+
+                        <p className="font-black text-gray-900 text-base mt-4">
+                          {formatPrice(
+                            services[mobileServicePage]?.price
+                          )}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* mobile arrows */}
+                    <div className="flex items-center justify-center gap-3 mt-5">
+
+                      <button
+                        onClick={() =>
+                          setMobileServicePage((prev) =>
+                            Math.max(prev - 1, 0)
+                          )
+                        }
+                        disabled={mobileServicePage === 0}
+                        className="w-10 h-10 rounded-full flex items-center justify-center font-bold disabled:opacity-40"
+                        style={{
+                          backgroundColor: "rgba(255,255,255,0.12)",
+                          color: "white",
+                          border: "1px solid rgba(255,255,255,0.15)",
+                        }}
+                      >
+                        ←
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          setMobileServicePage((prev) =>
+                            Math.min(prev + 1, services.length - 1)
+                          )
+                        }
+                        disabled={
+                          mobileServicePage === services.length - 1
+                        }
+                        className="w-10 h-10 rounded-full flex items-center justify-center font-bold disabled:opacity-40"
+                        style={{
+                          backgroundColor: "#D4A843",
+                          color: "#1a0000",
+                        }}
+                      >
+                        →
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
-
-          {/* cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
-            {serviceCards}
-          </div>
-
-        </div>
-      </div>
 
             {/* NEWS */}
             <div className="py-8 sm:py-12 md:py-16 bg-[#f5efc7]">
@@ -1039,7 +1253,7 @@ const serviceCards = isLoading ? (
 
                       <div>
                         <p className="text-yellow-400 text-[11px] sm:text-xs uppercase tracking-[0.2em] font-bold mb-2">
-                          Nha Khoa Quốc Tế
+                          Nha Khoa Quốc Tế Á Châu II
                         </p>
 
                         <h2 className="text-xl sm:text-2xl font-black">
