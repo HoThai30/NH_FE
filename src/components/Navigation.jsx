@@ -182,7 +182,9 @@ export default function Navigation() {
               TIN TỨC
             </Link>
 
-            <div className={navItem}>HỎI ĐÁP</div>
+            <Link to="/hoi-dap" className={navItem}>
+              HỎI ĐÁP
+            </Link>
           </div>
 
           {/* RIGHT SIDE */}
@@ -308,7 +310,13 @@ export default function Navigation() {
               TIN TỨC
             </Link>
 
-            <div className={mobileNavItem}>HỎI ĐÁP</div>
+            <Link
+              to="/hoi-dap"
+              className={mobileNavItem}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              HỎI ĐÁP
+            </Link>
 
             {isAuthenticated && (
               <>

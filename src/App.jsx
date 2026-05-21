@@ -31,6 +31,7 @@ import ServiceListPage from './pages/ServiceListPage';
 import PostDetailPage from './pages/PostDetailPage';
 import PostPromotionPage from './pages/PostPromotionPage';
 import PricingPage from './pages/PricingPage';
+import QAPage from './pages/QAPage';
 
 
 
@@ -208,6 +209,7 @@ function App() {
 
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/bang-gia" element={<PricingPage />} />
+          <Route path="/hoi-dap" element={<QAPage />} />
 
         </Routes>
       </AuthProvider>
