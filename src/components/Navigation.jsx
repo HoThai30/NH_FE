@@ -283,7 +283,7 @@ export default function Navigation() {
               )}
             </div>
             <Link
-              href="/bang-gia"
+              to="/bang-gia"
               className={mobileNavItem}
               onClick={() => setMobileMenuOpen(false)}
             >
