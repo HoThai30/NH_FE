@@ -219,10 +219,10 @@ const PostDetailPage = () => {
               </div>
 
               {/* TITLE */}
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black font-serif leading-tight break-words">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight break-words">
                 {post.title}
               </h1>
-
+            
               {/* META */}
               <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-4 text-xs sm:text-sm text-white/70">
                 <span>
