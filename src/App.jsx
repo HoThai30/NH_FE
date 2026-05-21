@@ -30,6 +30,8 @@ import ReceptionistEditPage from './pages/ReceptionistEditPage';
 import ServiceListPage from './pages/ServiceListPage';
 import PostDetailPage from './pages/PostDetailPage';
 import PostPromotionPage from './pages/PostPromotionPage';
+import PricingPage from './pages/PricingPage';
+
 
 
 function App() {
@@ -169,6 +171,7 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/book-appointment" element={<AnonymousAppointmentPage />} />
+          <Route path="/bang-gia" element={<PricingPage />} />
 
           {/* Post Management Routes */}
           <Route

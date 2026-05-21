@@ -170,9 +170,9 @@ export default function Navigation() {
               )}
             </div>
 
-            <a href="/#pricing" className={navItem}>
+            <Link to="/bang-gia" className={navItem}>
               BẢNG GIÁ
-            </a>
+            </Link>
 
             <Link to="/khuyen-mai" className={navItem}>
               KHUYẾN MẠI
@@ -285,7 +285,7 @@ export default function Navigation() {
               )}
             </div>
             <Link
-              href="/bang-gia"
+              to="/bang-gia"
               className={mobileNavItem}
               onClick={() => setMobileMenuOpen(false)}
             >
