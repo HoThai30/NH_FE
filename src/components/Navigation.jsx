@@ -268,18 +268,18 @@ export default function Navigation() {
               </button>
 
               {mobileServicesOpen && (
-                <div className="mt-4 flex flex-col pb-2 max-h-[140px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-600">
+                 <div className="mt-4 flex flex-col gap-2 pb-2 max-h-[110px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-600">
+                {services.map((service) => (
+                  <div
+                    key={service.id}
+                    className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 rounded-lg hover:bg-white/10 transition-all duration-200 cursor-pointer"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
 
-                  {services.map((service) => (
-                    <div
-                      key={service.id}
-                      className="py-2 text-sm text-gray-200 border border-gray-500 px-3"
-                    >
-                      {service.name}
-                    </div>
-                  ))}
-
-                </div>
+                    <span>{service.name}</span>
+                  </div>
+                ))}
+              </div>
               )}
             </div>
             <Link
