@@ -459,60 +459,176 @@ const PostPromotionPage = () => {
   </div>
 
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center p-4 z-50">
-          <div className="bg-white rounded-xl w-full max-w-xl p-6">
-            <h2 className="text-lg font-semibold mb-4">Đặt lịch khám</h2>
+              <div className="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
 
-            <form onSubmit={handleBookingSubmit} className="space-y-4">
-              <input
-                name="patientPhone"
-                value={booking.patientPhone}
-                onChange={handleBookingChange}
-                placeholder="Số điện thoại"
-                className="w-full border p-3 rounded"
-              />
-              <input
-                name="patientName"
-                value={booking.patientName}
-                onChange={handleBookingChange}
-                placeholder="Họ tên"
-                className="w-full border p-3 rounded"
-              />
-              <input
-                type="datetime-local"
-                name="appointmentTime"
-                value={booking.appointmentTime}
-                onChange={handleBookingChange}
-                className="w-full border p-3 rounded"
-              />
-              <textarea
-                name="reason"
-                value={booking.reason}
-                onChange={handleBookingChange}
-                placeholder="Lý do"
-                className="w-full border p-3 rounded"
-              />
+                {/* MODAL */}
+                <div className="relative w-full max-w-lg bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden animate-fadeIn">
 
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 border rounded"
-                >
-                  Hủy
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-4 py-2 bg-green-700 text-white rounded"
-                >
-                  {submitting ? 'Đang gửi...' : 'Gửi'}
-                </button>
+                  {/* HEADER */}
+                  <div
+                    className="px-5 sm:px-7 py-5 sm:py-6 text-white"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #2b0202 0%, #4a0505 100%)",
+                    }}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+
+                      <div>
+                        <p className="text-yellow-400 text-[11px] sm:text-xs uppercase tracking-[0.2em] font-bold mb-2">
+                          Nha Khoa Quốc Tế Á Châu II
+                        </p>
+
+                        <h2 className="text-xl sm:text-2xl font-black">
+                          Đặt lịch khám
+                        </h2>
+
+                        <p className="text-white/70 text-xs sm:text-sm mt-2">
+                          Vui lòng điền thông tin để được tư vấn nhanh nhất
+                        </p>
+                      </div>
+
+                      {/* CLOSE */}
+                      <button
+                        onClick={() => setModalOpen(false)}
+                        className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition flex items-center justify-center text-white text-lg flex-shrink-0"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* BODY */}
+                  <div className="p-5 sm:p-7 max-h-[80vh] overflow-y-auto">
+
+                    <form
+                      onSubmit={handleBookingSubmit}
+                      className="space-y-5"
+                    >
+
+                      {/* PHONE */}
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Số điện thoại
+                        </label>
+
+                        <input
+                          name="patientPhone"
+                          value={booking.patientPhone}
+                          onChange={handleBookingChange}
+                          placeholder="Nhập số điện thoại"
+                          className="w-full h-12 sm:h-13 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition focus:border-yellow-500 focus:bg-white focus:ring-4 focus:ring-yellow-100"
+                        />
+
+                        {errors.patientPhone && (
+                          <p className="text-red-500 text-xs mt-2">
+                            {errors.patientPhone}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* NAME */}
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Họ và tên
+                        </label>
+
+                        <input
+                          name="patientName"
+                          value={booking.patientName}
+                          onChange={handleBookingChange}
+                          placeholder="Nhập họ và tên"
+                          className="w-full h-12 sm:h-13 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition  focus:border-yellow-500 focus:bg-white focus:ring-4 focus:ring-yellow-100"
+                        />
+
+                        {errors.patientName && (
+                          <p className="text-red-500 text-xs mt-2">
+                            {errors.patientName}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* DATETIME */}
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Ngày giờ khám
+                        </label>
+
+                        <div className="relative">
+
+                          <input
+                            type="datetime-local"
+                            name="appointmentTime"
+                            value={booking.appointmentTime}
+                            onChange={handleBookingChange}
+                            className="w-full min-h-[52px] rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition focus:border-yellow-500 focus:bg-white focus:ring-4 focus:ring-yellow-100
+                              appearance-none
+                              text-gray-700
+
+                              [&::-webkit-calendar-picker-indicator]:opacity-100
+                              [&::-webkit-calendar-picker-indicator]:cursor-pointer
+                              [&::-webkit-calendar-picker-indicator]:block
+                              [&::-webkit-calendar-picker-indicator]:absolute
+                              [&::-webkit-calendar-picker-indicator]:right-4
+                            "
+                          />
+                        </div>
+
+                        <p className="text-[11px] text-gray-400 mt-2">
+                          Chọn ngày và giờ bạn muốn đặt lịch
+                        </p>
+
+                        {errors.appointmentTime && (
+                          <p className="text-red-500 text-xs mt-2">
+                            {errors.appointmentTime}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* REASON */}
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Lý do khám
+                        </label>
+
+                        <textarea
+                          name="reason"
+                          value={booking.reason}
+                          onChange={handleBookingChange}
+                          placeholder="Mô tả tình trạng hoặc nhu cầu khám..."
+                          rows="4"
+                          className=" w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none transition resize-none  focus:border-yellow-500 focus:bg-white focus:ring-4 focus:ring-yellow-100"
+                        />
+                      </div>
+
+                      {/* BUTTONS */}
+                      <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2">
+
+                        <button
+                          type="button"
+                          onClick={() => setModalOpen(false)}
+                          className=" w-full sm:w-auto px-5 h-11 rounded-xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-100  transition"
+                        >
+                          Hủy
+                        </button>
+
+                        <button
+                          type="submit"
+                          disabled={submitting}
+                          className=" w-full sm:w-auto px-6 h-11 rounded-xl text-white font-bold shadow-lg transition hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed"
+                          style={{
+                            background:
+                              "linear-gradient(135deg, #D4A843 0%, #b98d2d 100%)",
+                          }}
+                        >
+                          {submitting ? "Đang gửi..." : "Xác nhận đặt lịch"}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
-            </form>
-          </div>
-        </div>
-      )}
+            )}
     </div>
   );
 };

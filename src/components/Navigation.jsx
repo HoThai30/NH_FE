@@ -110,11 +110,13 @@ export default function Navigation() {
           {/* LOGO */}
           <div className="flex items-center gap-3 py-2">
             <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-white flex items-center justify-center">
+               <Link to="/" className={navItem}>
               <img
                 src="/uploads/logo.jpg"
                 alt="logo"
                 className="w-full h-full object-contain"
               />
+              </Link>
             </div>
           </div>
 
@@ -180,7 +182,9 @@ export default function Navigation() {
               TIN TỨC
             </Link>
 
-            <div className={navItem}>HỎI ĐÁP</div>
+            <Link to="/hoi-dap" className={navItem}>
+              HỎI ĐÁP
+            </Link>
           </div>
 
           {/* RIGHT SIDE */}
@@ -268,7 +272,7 @@ export default function Navigation() {
               </button>
 
               {mobileServicesOpen && (
-                 <div className="mt-4 flex flex-col gap-2 pb-2 max-h-[110px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-600">
+                <div className="mt-4 flex flex-col gap-2 pb-2 max-h-[110px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-600">
                 {services.map((service) => (
                   <div
                     key={service.id}
@@ -306,7 +310,13 @@ export default function Navigation() {
               TIN TỨC
             </Link>
 
-            <div className={mobileNavItem}>HỎI ĐÁP</div>
+            <Link
+              to="/hoi-dap"
+              className={mobileNavItem}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              HỎI ĐÁP
+            </Link>
 
             {isAuthenticated && (
               <>

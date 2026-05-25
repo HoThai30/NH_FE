@@ -31,6 +31,8 @@ import ServiceListPage from './pages/ServiceListPage';
 import PostDetailPage from './pages/PostDetailPage';
 import PostPromotionPage from './pages/PostPromotionPage';
 import PricingPage from './pages/PricingPage';
+import QAPage from './pages/QAPage';
+
 
 
 function App() {
@@ -170,6 +172,7 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/book-appointment" element={<AnonymousAppointmentPage />} />
+          
 
           {/* Post Management Routes */}
           <Route
@@ -204,9 +207,9 @@ function App() {
           <Route path="/tin-tuc" element={<PostDetailPage />} />
           <Route path="/khuyen-mai" element={<PostPromotionPage />} />
 
-          {/* Pricing Page Route */}
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/bang-gia" element={<PricingPage />} />
+          <Route path="/hoi-dap" element={<QAPage />} />
 
         </Routes>
       </AuthProvider>

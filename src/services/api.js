@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://nh-lqh7.onrender.com';
+const API_BASE_URL ='/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -116,6 +116,11 @@ export const visitAPI = {
 export const notificationAPI = {
   send: (appointmentId, channel = 'email', template = 'default') =>
     api.post('/notifications/send', { appointmentId, channel, template }),
+};
+
+// Chat Endpoints
+export const chatAPI = {
+  sendMessage: (message) => api.post('/chat', { message }),
 };
 
 export default api;
